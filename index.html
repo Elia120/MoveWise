@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Move Wise — Estate Agents Across the UK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:   #ffffff;
+      --off:     #faf9f7;
+      --pale:    #f3f1ed;
+      --ink:     #1c1b18;
+      --mid:     #8a8880;
+      --light:   #c8c5be;
+      --teal:    #2d6a6a;
+      --teal-lt: #3d8a8a;
+      --line:    rgba(28,27,24,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--off); }
+    ::-webkit-scrollbar-thumb { background: var(--light); border-radius: 2px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3.5rem; height: 72px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+      animation: navIn 0.7s ease both;
+    }
+    @keyframes navIn { from { opacity:0; transform:translateY(-12px); } to { opacity:1; transform:none; } }
+
+    .nav-logo { display:flex; align-items:center; gap:0.7rem; text-decoration:none; }
+    .nav-logo-icon {
+      width:36px; height:36px; border-radius:50%;
+      background:var(--teal); display:flex; align-items:center; justify-content:center;
+    }
+    .nav-logo-icon svg { width:17px; height:17px; fill:none; stroke:white; stroke-width:2; }
+    .nav-logo-name {
+      font-family:'Playfair Display',serif;
+      font-size:1.18rem; font-weight:500; color:var(--ink);
+    }
+    .nav-logo-name em { color:var(--teal); font-style:normal; }
+
+    .nav-center { display:flex; gap:2.5rem; list-style:none; }
+    .nav-center a {
+      font-size:0.8rem; font-weight:400; letter-spacing:0.07em;
+      text-transform:uppercase; color:var(--mid); text-decoration:none;
+      transition:color 0.2s; position:relative;
+    }
+    .nav-center a::after {
+      content:''; position:absolute; left:0; bottom:-3px;
+      width:0; height:1px; background:var(--teal); transition:width 0.25s;
+    }
+    .nav-center a:hover { color:var(--ink); }
+    .nav-center a:hover::after { width:100%; }
+
+    .nav-btn {
+      background:var(--teal); color:white; border:none;
+      padding:0.56rem 1.5rem; border-radius:2px;
+      font-family:'Jost',sans-serif; font-size:0.77rem;
+      font-weight:500; letter-spacing:0.09em; text-transform:uppercase;
+      cursor:pointer; transition:background 0.2s;
+    }
+    .nav-btn:hover { background:var(--teal-lt); }
+
+    /* HERO */
+    .hero {
+      min-height:100vh; display:grid; grid-template-columns:1fr 1fr;
+      padding-top:72px; overflow:hidden;
+    }
+    .hero-left {
+      display:flex; flex-direction:column; justify-content:center;
+      padding:6rem 4rem 6rem 3.5rem;
+    }
+    .hero-tag {
+      display:inline-flex; align-items:center; gap:0.6rem;
+      font-size:0.7rem; font-weight:500; letter-spacing:0.15em;
+      text-transform:uppercase; color:var(--teal); margin-bottom:2.2rem;
+      animation:riseIn 0.7s 0.15s ease both;
+    }
+    .tag-line { width:28px; height:1px; background:var(--teal); }
+
+    .hero-h1 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.8rem,4.5vw,4.6rem);
+      font-weight:400; line-height:1.1; letter-spacing:-0.01em;
+      color:var(--ink); margin-bottom:1.8rem;
+      animation:riseIn 0.7s 0.25s ease both;
+    }
+    .hero-h1 span { color:var(--teal); font-style:italic; }
+
+    .hero-p {
+      font-size:1rem; font-weight:300; line-height:1.85;
+      color:var(--mid); max-width:400px; margin-bottom:3rem;
+      animation:riseIn 0.7s 0.35s ease both;
+    }
+    .hero-actions {
+      display:flex; gap:1rem; flex-wrap:wrap;
+      animation:riseIn 0.7s 0.45s ease both;
+    }
+    .btn-solid {
+      background:var(--teal); color:white; border:none;
+      padding:0.88rem 2.2rem; border-radius:2px;
+      font-family:'Jost',sans-serif; font-size:0.8rem;
+      font-weight:500; letter-spacing:0.09em; text-transform:uppercase;
+      cursor:pointer; transition:all 0.22s;
+    }
+    .btn-solid:hover { background:var(--teal-lt); transform:translateY(-2px); }
+    .btn-line {
+      background:transparent; color:var(--ink);
+      padding:0.88rem 2.2rem; border-radius:2px;
+      border:1px solid var(--line);
+      font-family:'Jost',sans-serif; font-size:0.8rem;
+      font-weight:500; letter-spacing:0.09em; text-transform:uppercase;
+      cursor:pointer; transition:all 0.22s;
+    }
+    .btn-line:hover { border-color:var(--ink); transform:translateY(-2px); }
+
+    .hero-stats {
+      display:flex; gap:2.8rem;
+      margin-top:4.5rem; padding-top:2.5rem;
+      border-top:1px solid var(--line);
+      animation:riseIn 0.7s 0.55s ease both;
+    }
+    .stat-n {
+      font-family:'Playfair Display',serif;
+      font-size:2rem; font-weight:400; color:var(--ink);
+    }
+    .stat-l { font-size:0.73rem; color:var(--mid); margin-top:0.15rem; }
+
+    @keyframes riseIn { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+
+    .hero-right {
+      position:relative; overflow:hidden; background:var(--pale);
+      animation:fadeIn 1s 0.3s ease both;
+    }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    .hero-img { width:100%; height:100%; object-fit:cover; display:block; }
+    .hero-card {
+      position:absolute; bottom:2.5rem; left:-1.5rem;
+      background:white; padding:1.4rem 1.8rem;
+      box-shadow:0 12px 48px rgba(0,0,0,0.10);
+      border-left:3px solid var(--teal);
+      animation:slideCard 0.8s 0.8s ease both;
+    }
+    @keyframes slideCard { from{opacity:0;transform:translateX(-20px)} to{opacity:1;transform:none} }
+    .hc-top { font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid); margin-bottom:0.3rem; }
+    .hc-val { font-family:'Playfair Display',serif; font-size:1.45rem; font-weight:400; color:var(--ink); }
+
+    /* BAND */
+    .band { background:var(--ink); overflow:hidden; padding:0.85rem 0; }
+    .band-track {
+      display:flex; width:max-content; gap:3rem;
+      animation:marquee 32s linear infinite;
+    }
+    @keyframes marquee { to{transform:translateX(-50%)} }
+    .band-item {
+      display:flex; align-items:center; gap:0.7rem;
+      font-size:0.67rem; font-weight:500; letter-spacing:0.15em;
+      text-transform:uppercase; color:rgba(255,255,255,0.32); white-space:nowrap;
+    }
+    .bd { width:3px; height:3px; border-radius:50%; background:var(--teal); }
+
+    /* SHARED */
+    .wrap { max-width:1160px; margin:0 auto; padding:0 3.5rem; }
+    .sec { padding:7rem 0; }
+    .sec-label {
+      font-size:0.67rem; font-weight:600; letter-spacing:0.2em;
+      text-transform:uppercase; color:var(--teal); margin-bottom:0.9rem;
+    }
+    .sec-h {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.9rem,3vw,2.7rem);
+      font-weight:400; line-height:1.2; color:var(--ink);
+    }
+    .sec-sub {
+      font-size:0.96rem; font-weight:300; line-height:1.85;
+      color:var(--mid); max-width:460px;
+    }
+
+    /* WHY */
+    .why-head {
+      display:grid; grid-template-columns:1fr 1fr; gap:4rem;
+      align-items:end; margin-bottom:4rem;
+    }
+    .why-grid {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:1.5px;
+      background:var(--line); border:1px solid var(--line);
+    }
+    .wc { background:var(--white); padding:2.2rem; transition:background 0.2s; }
+    .wc:hover { background:#f3f8f8; }
+    .wc-icon {
+      width:40px; height:40px; border-radius:50%;
+      border:1px solid var(--line);
+      display:flex; align-items:center; justify-content:center; margin-bottom:1.3rem;
+    }
+    .wc-icon svg { width:18px; height:18px; stroke:var(--teal); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+    .wc h3 { font-family:'Playfair Display',serif; font-size:1.02rem; font-weight:400; margin-bottom:0.55rem; }
+    .wc p { font-size:0.85rem; line-height:1.75; color:var(--mid); font-weight:300; }
+
+    /* HOW */
+    .how-bg { background:var(--pale); }
+    .how-grid { display:grid; grid-template-columns:1fr 2fr; gap:6rem; align-items:start; }
+    .steps { display:flex; flex-direction:column; }
+    .step {
+      display:grid; grid-template-columns:40px 1fr; gap:1.5rem;
+      padding:2rem 0; border-bottom:1px solid var(--line);
+    }
+    .step:first-child { padding-top:0; }
+    .step:last-child { border-bottom:none; }
+    .step-n {
+      font-family:'Playfair Display',serif;
+      font-size:1rem; font-weight:400; color:var(--teal); padding-top:0.1rem;
+    }
+    .step h3 { font-family:'Playfair Display',serif; font-size:1.02rem; font-weight:400; margin-bottom:0.4rem; }
+    .step p { font-size:0.85rem; line-height:1.75; color:var(--mid); font-weight:300; }
+
+    /* COVERAGE */
+    .cov-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; }
+    .cov-map {
+      background:var(--pale); border:1px solid var(--line);
+      border-radius:4px; padding:2.5rem; position:relative;
+    }
+    .cov-svg { width:100%; display:block; }
+    .pin {
+      position:absolute; width:10px; height:10px;
+      background:var(--teal); border-radius:50%;
+      border:2px solid white;
+      box-shadow:0 0 0 3px rgba(45,106,106,0.18);
+      transform:translate(-50%,-50%);
+    }
+    .pin.hq {
+      background:white; border:2px solid var(--teal);
+      box-shadow:0 0 0 4px rgba(45,106,106,0.2);
+    }
+    .pin.hq::after {
+      content:''; position:absolute; inset:-2px;
+      border-radius:50%; border:1.5px solid var(--teal);
+      animation:ripple 2.2s ease-out infinite;
+    }
+    @keyframes ripple { to{transform:scale(2.8);opacity:0} }
+    .pin-tip {
+      position:absolute; transform:translate(-50%,calc(-100% - 10px));
+      font-size:0.58rem; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+      white-space:nowrap; background:var(--ink); color:white;
+      padding:2px 6px; border-radius:2px; pointer-events:none;
+    }
+    .pin-tip::after {
+      content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+      border:4px solid transparent; border-top-color:var(--ink);
+    }
+    .cities { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:2rem; }
+    .city {
+      font-size:0.75rem; font-weight:400; letter-spacing:0.04em;
+      padding:0.28rem 0.85rem; border:1px solid var(--line);
+      border-radius:100px; color:var(--mid); cursor:default; transition:all 0.18s;
+    }
+    .city:hover { border-color:var(--teal); color:var(--teal); }
+    .city.hq-tag { border-color:var(--teal); color:var(--teal); font-weight:500; }
+
+    /* VALUATION */
+    .val-dark { background:var(--ink); }
+    .val-grid { display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; }
+    .val-grid .sec-label { color:rgba(45,106,106,0.85); }
+    .val-grid .sec-h { color:white; }
+    .val-grid .sec-sub { color:rgba(255,255,255,0.4); margin-top:1rem; }
+
+    .vform { display:flex; flex-direction:column; gap:0.85rem; }
+    .vrow { display:grid; grid-template-columns:1fr 1fr; gap:0.85rem; }
+    .vform input, .vform select {
+      width:100%; padding:0.82rem 1rem;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.1); border-radius:2px;
+      color:white; font-family:'Jost',sans-serif; font-size:0.88rem; font-weight:300;
+      outline:none; transition:border-color 0.2s; -webkit-appearance:none;
+    }
+    .vform input::placeholder { color:rgba(255,255,255,0.28); }
+    .vform input:focus, .vform select:focus { border-color:var(--teal-lt); }
+    .vform select option { background:#1c1b18; color:white; }
+    .vbtn {
+      width:100%; background:var(--teal); color:white; border:none;
+      padding:0.9rem; border-radius:2px;
+      font-family:'Jost',sans-serif; font-size:0.8rem;
+      font-weight:500; letter-spacing:0.1em; text-transform:uppercase;
+      cursor:pointer; transition:background 0.2s; margin-top:0.3rem;
+    }
+    .vbtn:hover { background:var(--teal-lt); }
+
+    /* CONTACT */
+    .con-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; }
+    .con-details { margin-top:2.5rem; display:flex; flex-direction:column; gap:1.8rem; }
+    .con-row { display:flex; align-items:flex-start; gap:1.1rem; }
+    .con-icon {
+      width:38px; height:38px; border:1px solid var(--line);
+      border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .con-icon svg { width:16px; height:16px; stroke:var(--teal); fill:none; stroke-width:1.7; }
+    .con-lbl { font-size:0.68rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--light); margin-bottom:0.2rem; }
+    .con-val { font-size:0.94rem; font-weight:400; color:var(--ink); }
+    .con-val a { color:var(--ink); text-decoration:none; transition:color 0.2s; }
+    .con-val a:hover { color:var(--teal); }
+
+    .cform { background:var(--pale); padding:2.4rem; border:1px solid var(--line); }
+    .crow { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .fg { display:flex; flex-direction:column; gap:0.32rem; margin-bottom:0.95rem; }
+    .fg label { font-size:0.67rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--mid); }
+    .fg input, .fg select, .fg textarea {
+      padding:0.73rem 1rem; border:1px solid var(--line);
+      background:white; border-radius:2px;
+      font-family:'Jost',sans-serif; font-size:0.88rem; font-weight:300;
+      color:var(--ink); outline:none; transition:border-color 0.2s; -webkit-appearance:none;
+    }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color:var(--teal); }
+    .fg textarea { resize:vertical; min-height:90px; }
+    .csbtn {
+      width:100%; background:var(--teal); color:white; border:none;
+      padding:0.88rem; border-radius:2px;
+      font-family:'Jost',sans-serif; font-size:0.8rem;
+      font-weight:500; letter-spacing:0.1em; text-transform:uppercase;
+      cursor:pointer; transition:background 0.2s;
+    }
+    .csbtn:hover { background:var(--teal-lt); }
+
+    /* FOOTER */
+    footer { background:var(--off); border-top:1px solid var(--line); padding:4rem 0 2rem; }
+    .ft-top {
+      display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem;
+      padding-bottom:3rem; border-bottom:1px solid var(--line); margin-bottom:2rem;
+    }
+    .ft-brand { font-family:'Playfair Display',serif; font-size:1.12rem; font-weight:400; margin-bottom:0.8rem; }
+    .ft-brand em { color:var(--teal); font-style:normal; }
+    .ft-desc { font-size:0.82rem; line-height:1.78; color:var(--mid); font-weight:300; max-width:240px; }
+    .ft-reg { font-size:0.67rem; color:var(--light); margin-top:1.1rem; line-height:1.7; }
+    .ft-h { font-size:0.64rem; font-weight:600; letter-spacing:0.17em; text-transform:uppercase; color:var(--light); margin-bottom:1rem; }
+    .ft-ul { list-style:none; }
+    .ft-ul li { margin-bottom:0.5rem; }
+    .ft-ul a { font-size:0.82rem; font-weight:300; color:var(--mid); text-decoration:none; transition:color 0.2s; }
+    .ft-ul a:hover { color:var(--teal); }
+    .ft-bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+    .ft-copy { font-size:0.73rem; color:var(--light); }
+    .ft-lnks { display:flex; gap:1.5rem; }
+    .ft-lnks a { font-size:0.73rem; color:var(--light); text-decoration:none; transition:color 0.2s; }
+    .ft-lnks a:hover { color:var(--mid); }
+
+    /* RESPONSIVE */
+    @media(max-width:960px){
+      nav { padding:0 1.5rem; }
+      .nav-center { display:none; }
+      .hero { grid-template-columns:1fr; }
+      .hero-right { display:none; }
+      .hero-left { padding:4rem 1.5rem; }
+      .wrap { padding:0 1.5rem; }
+      .sec { padding:5rem 0; }
+      .why-head, .how-grid, .cov-grid, .val-grid, .con-grid { grid-template-columns:1fr; gap:2.5rem; }
+      .why-grid { grid-template-columns:1fr; }
+      .vrow, .crow { grid-template-columns:1fr; }
+      .ft-top { grid-template-columns:1fr 1fr; gap:2rem; }
+    }
+    @media(max-width:560px){
+      .ft-top { grid-template-columns:1fr; }
+      .hero-stats { gap:1.5rem; flex-wrap:wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
+    </div>
+    <span class="nav-logo-name">Move <em>Wise</em></span>
+  </a>
+  <ul class="nav-center">
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#coverage">Coverage</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-btn" onclick="document.getElementById('valuation').scrollIntoView({behavior:'smooth'})">Free Valuation</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag"><span class="tag-line"></span>UK-Wide · Based in Manchester</div>
+    <h1 class="hero-h1">Your move,<br>made <span>wisely</span></h1>
+    <p class="hero-p">Move Wise is a modern estate agency covering the whole of the United Kingdom. Personal service and genuine market expertise — from first enquiry to final handover.</p>
+    <div class="hero-actions">
+      <button class="btn-solid" onclick="window.open('https://www.rightmove.co.uk','_blank')">View Properties</button>
+      <button class="btn-line" onclick="document.getElementById('valuation').scrollIntoView({behavior:'smooth'})">Free Valuation</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-n">98%</div><div class="stat-l">Asking price achieved</div></div>
+      <div><div class="stat-n">UK</div><div class="stat-l">Full national coverage</div></div>
+      <div><div class="stat-n">£0</div><div class="stat-l">Hidden fees</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&auto=format&fit=crop&q=80" alt="Beautiful UK home"/>
+    <div class="hero-card">
+      <div class="hc-top">Properties listed across</div>
+      <div class="hc-val">All of the UK</div>
+    </div>
+  </div>
+</section>
+
+<!-- BAND -->
+<div class="band">
+  <div class="band-track">
+    <span class="band-item"><span class="bd"></span>Manchester</span>
+    <span class="band-item"><span class="bd"></span>London</span>
+    <span class="band-item"><span class="bd"></span>Birmingham</span>
+    <span class="band-item"><span class="bd"></span>Leeds</span>
+    <span class="band-item"><span class="bd"></span>Edinburgh</span>
+    <span class="band-item"><span class="bd"></span>Bristol</span>
+    <span class="band-item"><span class="bd"></span>Liverpool</span>
+    <span class="band-item"><span class="bd"></span>Sheffield</span>
+    <span class="band-item"><span class="bd"></span>Glasgow</span>
+    <span class="band-item"><span class="bd"></span>Cardiff</span>
+    <span class="band-item"><span class="bd"></span>Belfast</span>
+    <span class="band-item"><span class="bd"></span>Newcastle</span>
+    <span class="band-item"><span class="bd"></span>Manchester</span>
+    <span class="band-item"><span class="bd"></span>London</span>
+    <span class="band-item"><span class="bd"></span>Birmingham</span>
+    <span class="band-item"><span class="bd"></span>Leeds</span>
+    <span class="band-item"><span class="bd"></span>Edinburgh</span>
+    <span class="band-item"><span class="bd"></span>Bristol</span>
+    <span class="band-item"><span class="bd"></span>Liverpool</span>
+    <span class="band-item"><span class="bd"></span>Sheffield</span>
+    <span class="band-item"><span class="bd"></span>Glasgow</span>
+    <span class="band-item"><span class="bd"></span>Cardiff</span>
+    <span class="band-item"><span class="bd"></span>Belfast</span>
+    <span class="band-item"><span class="bd"></span>Newcastle</span>
+  </div>
+</div>
+
+<!-- WHY -->
+<section id="why">
+  <div class="wrap sec">
+    <div class="why-head">
+      <div>
+        <div class="sec-label">Why Move Wise</div>
+        <h2 class="sec-h">Estate agency<br>done with care</h2>
+      </div>
+      <p class="sec-sub">We believe moving home should be straightforward. No jargon, no hidden costs — just honest, expert guidance from people who genuinely care about your outcome.</p>
+    </div>
+    <div class="why-grid">
+      <div class="wc">
+        <div class="wc-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <h3>UK-Wide Coverage</h3>
+        <p>Our network covers every postcode across England, Scotland, Wales and Northern Ireland — wherever you need us.</p>
+      </div>
+      <div class="wc">
+        <div class="wc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3>Clear &amp; Transparent</h3>
+        <p>Every step explained, every fee stated upfront. You will never be left wondering where things stand.</p>
+      </div>
+      <div class="wc">
+        <div class="wc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+        <h3>No Hidden Fees</h3>
+        <p>What we quote is what you pay. Simple, honest pricing with nothing buried in the small print.</p>
+      </div>
+      <div class="wc">
+        <div class="wc-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <h3>Manchester Roots</h3>
+        <p>Founded in Manchester, we bring the city's no-nonsense spirit to every transaction — straight-talking, results-focused.</p>
+      </div>
+      <div class="wc">
+        <div class="wc-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <h3>Dedicated Agent</h3>
+        <p>One point of contact throughout — a real person who knows your property, your timeline, and your goals.</p>
+      </div>
+      <div class="wc">
+        <div class="wc-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3>Results-Focused</h3>
+        <p>Our data-led approach to pricing and marketing consistently achieves above-asking results for our clients.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="how-bg">
+  <div class="wrap sec">
+    <div class="how-grid">
+      <div>
+        <div class="sec-label">The Process</div>
+        <h2 class="sec-h">How it works</h2>
+        <p class="sec-sub" style="margin-top:1.2rem;">Moving home doesn't need to be complicated. We have refined our process so you always know exactly where things stand.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-n">01</div>
+          <div><h3>Book Your Free Valuation</h3><p>We visit your property and provide a precise, honest valuation based on real market data. No obligation, no pressure.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-n">02</div>
+          <div><h3>We List Your Property</h3><p>Professional photography and a compelling listing go live on Rightmove and all major portals within 48 hours.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-n">03</div>
+          <div><h3>Viewings &amp; Offers</h3><p>We manage all enquiries and viewings on your behalf, qualifying buyers and keeping you updated throughout.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-n">04</div>
+          <div><h3>Sold &amp; Completed</h3><p>We negotiate the best price, liaise with solicitors, and guide the sale to a smooth, stress-free completion.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COVERAGE -->
+<section id="coverage">
+  <div class="wrap sec">
+    <div class="cov-grid">
+      <div class="cov-map">
+        <svg class="cov-svg" viewBox="0 0 220 340" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <path d="M80,300 C72,292 62,280 54,268 C46,256 44,244 46,232 C50,222 56,218 54,208 C52,198 48,190 50,180 C52,170 58,165 56,155 C54,145 50,138 54,130 C58,123 66,120 68,112 C70,104 72,98 78,92 C84,86 90,82 96,76 C102,70 106,63 112,58 C118,53 124,50 128,44 C132,38 132,30 128,24 C124,18 118,14 122,8 C126,2 134,0 142,2 C150,4 154,10 152,16 C150,22 144,24 144,30 C144,36 150,40 154,46 C158,52 156,60 150,64 C144,68 138,66 134,72 C130,78 132,86 128,92 C124,98 116,100 112,106 C108,112 108,120 106,128 C104,136 100,142 100,150 C100,158 104,164 102,172 C100,180 94,184 92,192 C90,200 92,210 90,220 C88,230 84,238 82,248 C80,258 80,270 80,280 C80,288 80,296 80,300Z" fill="#e8e5de" stroke="#d4cfc6" stroke-width="1.2"/>
+          <path d="M78,92 C72,98 66,104 62,112 C58,120 54,128 52,138 C50,148 52,158 56,166 C60,174 64,180 62,188 C60,196 56,202 56,210 C56,218 58,226 60,232 C62,238 66,244 68,250 L80,300 C80,296 80,288 80,280 C80,270 80,258 82,248 C84,238 88,230 90,220 C92,210 90,200 92,192 C94,184 100,180 102,172 C104,164 100,158 100,150 C100,142 104,136 106,128 C108,120 108,112 112,106 C116,100 124,98 128,92 C132,86 130,78 134,72 C138,66 144,68 150,64 C156,60 158,52 154,46 C150,40 144,36 144,30 C144,24 150,22 152,16 C154,10 150,4 142,2 C138,0 132,0 128,2 C122,4 116,8 110,12 C104,16 98,20 94,26 C90,32 88,38 84,44 C80,50 76,56 74,62 C72,68 74,76 76,82 L78,92Z" fill="#dedad2" stroke="#ccc8bf" stroke-width="1.2"/>
+          <path d="M38,78 C42,74 48,72 54,74 C60,76 64,82 62,88 C60,94 54,96 48,94 C42,92 36,88 36,82 L38,78Z" fill="#d8d4cc" stroke="#c4c0b6" stroke-width="1"/>
+        </svg>
+        <!-- Pins -->
+        <div class="pin hq" style="left:42%;top:47%;"><div class="pin-tip">Manchester HQ</div></div>
+        <div class="pin" style="left:53%;top:70%;"></div>
+        <div class="pin" style="left:46%;top:43%;"></div>
+        <div class="pin" style="left:47%;top:59%;"></div>
+        <div class="pin" style="left:37%;top:18%;"></div>
+        <div class="pin" style="left:33%;top:21%;"></div>
+        <div class="pin" style="left:38%;top:72%;"></div>
+        <div class="pin" style="left:49%;top:46%;"></div>
+      </div>
+      <div>
+        <div class="sec-label">Our Coverage</div>
+        <h2 class="sec-h">Everywhere<br>across the UK</h2>
+        <p class="sec-sub" style="margin-top:1.2rem;">Headquartered in Manchester, our agents operate in every region of England, Scotland, Wales and Northern Ireland. Wherever you are moving to or from, we are already there.</p>
+        <div class="cities">
+          <span class="city hq-tag">Manchester</span>
+          <span class="city">London</span>
+          <span class="city">Birmingham</span>
+          <span class="city">Leeds</span>
+          <span class="city">Sheffield</span>
+          <span class="city">Liverpool</span>
+          <span class="city">Edinburgh</span>
+          <span class="city">Glasgow</span>
+          <span class="city">Bristol</span>
+          <span class="city">Cardiff</span>
+          <span class="city">Newcastle</span>
+          <span class="city">Belfast</span>
+          <span class="city">& beyond</span>
+        </div>
+        <button class="btn-solid" style="margin-top:2.5rem;" onclick="window.open('https://www.rightmove.co.uk','_blank')">Search Properties on Rightmove</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUATION -->
+<section id="valuation" class="val-dark">
+  <div class="wrap sec">
+    <div class="val-grid">
+      <div>
+        <div class="sec-label">100% Free</div>
+        <h2 class="sec-h">What is your<br>property worth?</h2>
+        <p class="sec-sub">Find out with a free, no-obligation valuation from one of our local experts. Honest advice, real data, zero pressure.</p>
+      </div>
+      <div class="vform">
+        <div class="vrow">
+          <input type="text" placeholder="First name"/>
+          <input type="text" placeholder="Last name"/>
+        </div>
+        <input type="text" placeholder="Property address or postcode"/>
+        <div class="vrow">
+          <input type="tel" placeholder="Phone number"/>
+          <input type="email" placeholder="Email address"/>
+        </div>
+        <select>
+          <option value="" disabled selected>I am looking to…</option>
+          <option>Sell my property</option>
+          <option>Let my property</option>
+          <option>Sell and let</option>
+        </select>
+        <button class="vbtn">Book My Free Valuation</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap sec">
+    <div class="con-grid">
+      <div>
+        <div class="sec-label">Get In Touch</div>
+        <h2 class="sec-h">We would love<br>to hear from you</h2>
+        <div class="con-details">
+          <div class="con-row">
+            <div class="con-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div><div class="con-lbl">Head Office</div><div class="con-val">Manchester, Greater Manchester</div></div>
+          </div>
+          <div class="con-row">
+            <div class="con-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.7 19.79 19.79 0 01.17 3.09 2 2 0 012.15 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16z"/></svg></div>
+            <div><div class="con-lbl">Phone</div><div class="con-val"><a href="tel:01612345678">0161 234 5678</a></div></div>
+          </div>
+          <div class="con-row">
+            <div class="con-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div><div class="con-lbl">Email</div><div class="con-val"><a href="mailto:hello@move-wise.uk">hello@move-wise.uk</a></div></div>
+          </div>
+          <div class="con-row">
+            <div class="con-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div><div class="con-lbl">Hours</div><div class="con-val">Mon–Fri 9am–6pm &nbsp;·&nbsp; Sat 9am–4pm</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="cform">
+        <div class="sec-label" style="margin-bottom:1.4rem;">Send a Message</div>
+        <div class="crow">
+          <div class="fg"><label>First Name</label><input type="text" placeholder="Jane"/></div>
+          <div class="fg"><label>Last Name</label><input type="text" placeholder="Smith"/></div>
+        </div>
+        <div class="fg"><label>Email</label><input type="email" placeholder="jane@example.com"/></div>
+        <div class="fg"><label>Enquiry</label>
+          <select><option>Buying</option><option>Selling</option><option>Letting</option><option>Valuation</option><option>General</option></select>
+        </div>
+        <div class="fg"><label>Message</label><textarea placeholder="How can we help?"></textarea></div>
+        <button class="csbtn">Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="ft-top">
+      <div>
+        <div class="ft-brand">Move <em>Wise</em></div>
+        <p class="ft-desc">UK-wide estate agents headquartered in Manchester. Honest advice, transparent pricing, and genuine care from start to finish.</p>
+        <p class="ft-reg">Move Wise Estate Agents Ltd · Registered in England &amp; Wales<br>Member of The Property Ombudsman · NAEA Propertymark Protected</p>
+      </div>
+      <div>
+        <div class="ft-h">Services</div>
+        <ul class="ft-ul">
+          <li><a href="#why">Buying</a></li>
+          <li><a href="#why">Selling</a></li>
+          <li><a href="#why">Lettings</a></li>
+          <li><a href="#valuation">Free Valuation</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-h">Company</div>
+        <ul class="ft-ul">
+          <li><a href="#why">Why Move Wise</a></li>
+          <li><a href="#how">How It Works</a></li>
+          <li><a href="#coverage">Our Coverage</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-h">Legal</div>
+        <ul class="ft-ul">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Complaints</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <span class="ft-copy">© 2025 Move Wise Estate Agents Ltd. All rights reserved.</span>
+      <div class="ft-lnks"><a href="#">Privacy</a><a href="#">Cookies</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
