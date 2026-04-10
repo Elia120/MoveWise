@@ -144,7 +144,7 @@
       text-transform: uppercase; color: var(--brand-green); margin-bottom: 1rem;
     }
     .sec-h {
-      font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem);
       line-height: 1.2; color: var(--ink); margin-bottom: 1.5rem;
     }
     .sec-sub { color: var(--mid); font-weight: 300; max-width: 500px; }
@@ -195,30 +195,8 @@
     .ft-h { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
     .ft-links { list-style: none; }
     .ft-links li { margin-bottom: 0.8rem; }
-    .ft-links a { text-decoration: none; color: var(--mid); font-size: 0.9rem; transition: 0.2s; cursor: pointer; }
+    .ft-links a { text-decoration: none; color: var(--mid); font-size: 0.9rem; transition: 0.2s; }
     .ft-links a:hover { color: var(--brand-green); }
-
-    /* OVERLAY STYLES */
-    .overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(28, 27, 24, 0.95);
-      z-index: 1000; display: none; align-items: center; justify-content: center;
-      padding: 2rem; backdrop-filter: blur(8px);
-    }
-    .overlay-content {
-      background: var(--white); width: 100%; max-width: 800px;
-      max-height: 80vh; overflow-y: auto; padding: 4rem;
-      position: relative; border-radius: 4px;
-    }
-    .close-overlay {
-      position: absolute; top: 1.5rem; right: 1.5rem;
-      background: none; border: none; font-size: 1.5rem; cursor: pointer;
-      color: var(--mid); transition: 0.2s;
-    }
-    .close-overlay:hover { color: var(--brand-green); }
-    .overlay-inner h2 { font-family: 'Playfair Display', serif; margin-bottom: 1.5rem; color: var(--brand-purple); }
-    .overlay-inner h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; color: var(--ink); }
-    .overlay-inner p, .overlay-inner li { font-size: 0.95rem; color: var(--mid); margin-bottom: 1rem; list-style-position: inside; }
 
     /* RESPONSIVENESS */
     @media (max-width: 1100px) {
@@ -239,7 +217,6 @@
       .how-grid { grid-template-columns: 1fr; gap: 3rem; }
       .val-grid { grid-template-columns: 1fr; gap: 3rem; }
       .ft-grid { grid-template-columns: 1fr 1fr; }
-      .overlay-content { padding: 2rem; }
     }
 
     @media (max-width: 600px) {
@@ -308,7 +285,7 @@
   </div>
 </div>
 
-<section class="sec wrap" id="why" style="padding-left: 25px;">
+<section class="sec wrap" id="why"style="padding-left: 25px;">
   <div class="sec-label">Why Us</div>
   <h2 class="sec-h">The smarter way<br>to sell your property</h2>
   <p class="sec-sub">We combine the reach of a national agency with the dedicated attention of a boutique firm.</p>
@@ -410,17 +387,17 @@
       <div>
         <div class="ft-h">Contact</div>
         <ul class="ft-links">
-          <li><a href="mailto:hello@movewise.uk">hello@movewise.uk</a></li>
-          <li><a href="tel:01612341111" style="text-decoration: line-through;">0161 234 1111</a></li>
+          <li><a href="mailto:hello@movewise.co.uk">hello@movewise.uk</a></li>
+          <li><a href="tel:01612341111">0161 234 1111</a></li>
           <li><a href="#">Manchester HQ</a></li>
         </ul>
       </div>
       <div>
         <div class="ft-h">Legal</div>
         <ul class="ft-links">
-          <li><a onclick="openOverlay('privacy')">Privacy Policy</a></li>
-          <li><a onclick="openOverlay('terms')">Terms of Use</a></li>
-          <li><a onclick="openOverlay('cookies')">Cookies</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Cookies</a></li>
         </ul>
       </div>
     </div>
@@ -430,85 +407,7 @@
   </div>
 </footer>
 
-<!-- OVERLAY ELEMENT -->
-<div id="legal-overlay" class="overlay">
-  <div class="overlay-content">
-    <button class="close-overlay" onclick="closeOverlay()">&times;</button>
-    <div id="overlay-inner" class="overlay-inner">
-      <!-- Content injected by JS -->
-    </div>
-  </div>
-</div>
-
 <script>
-  // MODAL LOGIC
-  const overlay = document.getElementById('legal-overlay');
-  const inner = document.getElementById('overlay-inner');
-
-  const legalContent = {
-    privacy: `
-      <h2>Privacy Policy</h2>
-      <h3>1. Introduction</h3>
-      <p>This Privacy Policy explains how NORTON INVESTMENTS LTD (Company number: 07805504), trading as Move Wise Estate Agents (“we,” “us,” or “our”), collects, uses, and protects your personal data. We operate the website move-wise.uk and are committed to complying with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.</p>
-      <h3>2. How We Collect Your Data</h3>
-      <p>We collect personal information through the following primary channels:</p>
-      <ul>
-        <li><strong>Property Portals:</strong> We receive initial lead details when you enquire about our listings via Rightmove.</li>
-        <li><strong>Direct Communication:</strong> Information provided via Apple-hosted email, WhatsApp Business, and SMS/Text messages.</li>
-        <li><strong>Telephone Calls:</strong> We collect information during phone conversations. Please note that calls may be recorded for training, quality assurance, and to establish a record of verbal agreements or offers.</li>
-        <li><strong>Identity Verification:</strong> Government-issued ID and proof of address required for legal compliance.</li>
-      </ul>
-      <h3>3. Third-Party Service Providers</h3>
-      <p>To facilitate our services and meet legal mandates, we may share your information with:</p>
-      <ul>
-        <li><strong>Identity Verification:</strong> We may use Credas Technologies Ltd to perform digital identity and Anti-Money Laundering (AML) checks.</li>
-        <li><strong>Communications & Hosting:</strong> Data is processed via Apple's encrypted email infrastructure and WhatsApp's platform.</li>
-        <li><strong>Transaction Partners:</strong> Necessary details shared with solicitors, surveyors, or referencing agencies as required to progress a property sale or tenancy.</li>
-      </ul>
-      <h3>4. Data Retention (The 6-Year Rule)</h3>
-      <p>To comply with UK legal requirements (HMRC and AML regulations) and to protect against potential legal claims, we operate a standard 6-year retention policy. All client records, including emails, WhatsApp messages, SMS, and call recordings, will be stored for 6 years from the date of our last interaction or the completion of your transaction. After this period, your data will be securely deleted.</p>
-      <h3>5. Your Legal Rights</h3>
-      <p>Under UK GDPR, you have the right to request access (including call recordings), correction, or erasure of your data, provided we are not legally required to retain it.</p>
-      <h3>6. Contact Information</h3>
-      <p>Email: compliance@move-wise.uk<br>Registered Office: 13 Old Hall Road, Manchester, M7 4JJ</p>
-    `,
-    terms: `
-      <h2>Terms of Use</h2>
-      <h3>1. Acceptance of Terms</h3>
-      <p>By accessing move-wise.uk, you agree to be bound by these terms. This website is owned by Norton Investments Ltd.</p>
-      <h3>2. Accuracy of Information</h3>
-      <p>While we strive for accuracy, property listings, prices, and availability are subject to change. We are not responsible for errors in third-party portal data (e.g., Rightmove).</p>
-      <h3>3. Use of Content</h3>
-      <p>All photography, logos, and text on this site are the property of Move Wise. You may not use our content for commercial purposes without written consent.</p>
-      <h3>4. Disclaimers</h3>
-      <p>We provide this website on an "as is" basis. We do not guarantee that the site will be error-free or uninterrupted. Any links to external sites are provided for convenience only.</p>
-      <h3>5. Governing Law</h3>
-      <p>These terms are governed by the laws of England and Wales.</p>
-    `,
-    cookies: `
-      <h2>Cookie Policy</h2>
-      <p>Move Wise takes your privacy seriously. We do not use non-essential tracking cookies or advertising cookies on this website. Any technical interaction data is strictly functional to ensure the website loads and displays correctly on your device.</p>
-      <p>By using our site, you acknowledge that we do not track your browsing habits for marketing purposes.</p>
-    `
-  };
-
-  function openOverlay(type) {
-    inner.innerHTML = legalContent[type];
-    overlay.style.display = 'flex';
-    document.body.style.overflow = 'hidden'; // Prevent scroll
-  }
-
-  function closeOverlay() {
-    overlay.style.display = 'none';
-    document.body.style.overflow = 'auto';
-  }
-
-  // Close on outside click
-  window.onclick = function(event) {
-    if (event.target == overlay) closeOverlay();
-  }
-
-  // FORM LOGIC
   const form = document.getElementById('valuation-form');
   const result = document.getElementById('form-result');
 
@@ -533,14 +432,16 @@
             let json = await response.json();
             if (response.status == 200) {
                 result.innerHTML = "Thank you! Your request has been sent successfully.";
-                result.style.color = "#4ade80"; 
+                result.style.color = "#4ade80"; // Bright green for success
                 form.reset();
             } else {
+                console.log(response);
                 result.innerHTML = json.message;
-                result.style.color = "#f87171";
+                result.style.color = "#f87171"; // Red for error
             }
         })
         .catch(error => {
+            console.log(error);
             result.innerHTML = "Something went wrong. Please try again.";
             result.style.color = "#f87171";
         })
