@@ -5,89 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Move Wise | Property Compliance Tracker</title>
   
-  <!-- Fonts & Supabase SDK -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --white:   #ffffff;
-      --off:     #faf9f7;
-      --pale:    #f3f1ed;
-      --ink:     #1c1b18;
-      --brand-green:  #204d35; 
-      --brand-purple: #71307b; 
-      --brand-teal:   #2d8080; 
-      --mid:     #8a8880;
-      --line:    rgba(28,27,24,0.08);
-      --danger:  #bc2c2c;
+      --white:   #ffffff; --off: #faf9f7; --pale: #f3f1ed;
+      --ink:     #1c1b18; --brand-green: #204d35; 
+      --brand-purple: #71307b; --brand-teal: #2d8080; 
+      --mid: #8a8880; --line: rgba(28,27,24,0.08); --danger: #bc2c2c;
     }
+    body { font-family: 'Jost', sans-serif; background: var(--off); color: var(--ink); line-height: 1.6; }
 
-    body {
-      font-family: 'Jost', sans-serif;
-      background: var(--off);
-      color: var(--ink);
-      line-height: 1.6;
-    }
-
-    /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5%; height: 80px;
-      background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--line);
+      padding: 0 5%; height: 80px; background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(20px); border-bottom: 1px solid var(--line);
     }
-    .nav-logo img { height: 70px; width: auto; display: block; }
+    .nav-logo img { height: 60px; width: auto; }
     .nav-user { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--mid); letter-spacing: 0.1em; }
-    .btn-logout { 
-        background: none; border: 1px solid var(--line); padding: 0.4rem 0.8rem; 
-        font-size: 0.7rem; cursor: pointer; margin-left: 10px; font-family: 'Jost';
-    }
+    .btn-logout { background: none; border: 1px solid var(--line); padding: 0.4rem 0.8rem; font-size: 0.7rem; cursor: pointer; margin-left: 10px; font-family: 'Jost'; }
 
-    /* AUTH SECTION */
     .auth-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
-    .auth-card {
-      background: white; width: 100%; max-width: 400px; padding: 3rem;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.05); border-radius: 4px;
-    }
+    .auth-card { background: white; width: 100%; max-width: 400px; padding: 3rem; box-shadow: 0 20px 50px rgba(0,0,0,0.05); border-radius: 4px; }
     .auth-card h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1.5rem; color: var(--brand-purple); text-align: center; }
 
-    /* FORM STYLES */
     .input-grp { margin-bottom: 1.2rem; }
-    .input-grp label { display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; color: var(--brand-green); }
-    input { width: 100%; padding: 0.8rem; background: var(--off); border: 1px solid var(--line); font-family: inherit; outline: none; }
+    .input-grp label { display: block; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; color: var(--brand-green); }
+    input { width: 100%; padding: 0.8rem; background: var(--off); border: 1px solid var(--line); font-family: inherit; outline: none; font-size: 0.9rem; }
     input:focus { border-color: var(--brand-purple); }
 
-    .btn-primary {
-      background: var(--brand-green); color: white; border: none; padding: 1rem;
-      text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; cursor: pointer;
-      width: 100%; transition: 0.3s;
-    }
+    .btn-primary { background: var(--brand-green); color: white; border: none; padding: 1rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; cursor: pointer; width: 100%; transition: 0.3s; }
     .btn-primary:hover { background: var(--brand-purple); }
 
-    /* APP CONTENT */
-    .app-wrap { max-width: 1200px; margin: 120px auto 5rem; padding: 0 5%; }
-    .dashboard-header { margin-bottom: 3rem; }
-    .dashboard-header h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 0.5rem; }
-
+    .app-wrap { max-width: 1400px; margin: 120px auto 5rem; padding: 0 5%; }
     .card-panel { background: white; padding: 2rem; border: 1px solid var(--line); margin-bottom: 3rem; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
 
-    /* TABLE */
     .table-container { background: white; border: 1px solid var(--line); overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; text-align: left; }
-    th { background: #f8f9fa; padding: 1rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 2px solid var(--line); }
-    td { padding: 1rem; border-bottom: 1px solid var(--line); font-size: 0.9rem; vertical-align: middle; }
+    table { width: 100%; border-collapse: collapse; text-align: left; min-width: 1000px; }
+    th { background: #f8f9fa; padding: 1rem; font-size: 0.65rem; text-transform: uppercase; border-bottom: 2px solid var(--line); }
+    td { padding: 1rem; border-bottom: 1px solid var(--line); font-size: 0.85rem; vertical-align: top; }
 
-    .status-badge { font-size: 0.65rem; padding: 3px 8px; border-radius: 20px; font-weight: 600; text-transform: uppercase; }
+    .status-badge { font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; display: inline-block; margin-top: 4px; }
     .expired { background: #fee2e2; color: #991b1b; }
     .valid { background: #f0fdf4; color: #166534; }
-
+    
+    .file-link { display: block; margin-top: 5px; color: var(--brand-purple); text-decoration: none; font-weight: 600; font-size: 0.7rem; }
+    .upload-btn { font-size: 0.65rem; cursor: pointer; background: #eee; padding: 2px 5px; border-radius: 3px; border: 1px solid #ddd; }
+    
     footer { background: var(--pale); padding: 4rem 5%; border-top: 1px solid var(--line); text-align: center; }
   </style>
 </head>
@@ -101,110 +70,94 @@
   </div>
 </nav>
 
-<!-- AUTHENTICATION SCREEN -->
 <div id="auth-section" class="auth-container">
   <div class="auth-card">
     <h2 id="auth-title">Agent Portal</h2>
-    
-    <div class="input-grp">
-      <label>Email Address</label>
-      <input type="email" id="auth-email" placeholder="agent@move-wise.uk">
-    </div>
-    <div class="input-grp">
-      <label>Password</label>
-      <input type="password" id="auth-password" placeholder="••••••••">
-    </div>
-    
+    <div class="input-grp"><label>Email</label><input type="email" id="auth-email"></div>
+    <div class="input-grp"><label>Password</label><input type="password" id="auth-password"></div>
     <div id="login-actions">
       <button class="btn-primary" onclick="login()">Login</button>
-      <p style="text-align:center; font-size:0.8rem; margin-top:1.5rem;">
-        No account? <a href="javascript:void(0)" onclick="toggleAuth(true)" style="color:var(--brand-purple)">Register here</a>
-      </p>
+      <p style="text-align:center; font-size:0.8rem; margin-top:1.5rem;">No account? <a href="javascript:void(0)" onclick="toggleAuth(true)" style="color:var(--brand-purple)">Register</a></p>
     </div>
-    
     <div id="signup-actions" style="display:none;">
       <button class="btn-primary" onclick="signUp()">Create Account</button>
-      <p style="text-align:center; font-size:0.8rem; margin-top:1.5rem;">
-        Have an account? <a href="javascript:void(0)" onclick="toggleAuth(false)" style="color:var(--brand-purple)">Login here</a>
-      </p>
+      <p style="text-align:center; font-size:0.8rem; margin-top:1.5rem;">Have an account? <a href="javascript:void(0)" onclick="toggleAuth(false)" style="color:var(--brand-purple)">Login</a></p>
     </div>
   </div>
 </div>
 
-<!-- MAIN DASHBOARD -->
 <main id="app-section" class="app-wrap" style="display:none;">
-  <div class="dashboard-header">
-    <h1>Compliance Tracker</h1>
-    <p style="color:var(--mid)">Manage EPC, Gas, and Electrical safety dates for your properties.</p>
-  </div>
-
   <div class="card-panel">
-    <h3 style="font-family:'Playfair Display'; margin-bottom:1.5rem;">Add New Property</h3>
+    <h3 style="font-family:'Playfair Display'; margin-bottom:1.5rem;">Add New Property Record</h3>
     <form id="property-form" onsubmit="addProperty(event)">
-      <div class="grid-3">
-        <div class="input-grp"><label>Address *</label><input type="text" id="address" required></div>
+      <div class="grid-4">
+        <div class="input-grp"><label>Property Address *</label><input type="text" id="address" required></div>
         <div class="input-grp"><label>Postcode</label><input type="text" id="postcode"></div>
+        <div class="input-grp"><label>Tenant Name</label><input type="text" id="tenant_name"></div>
+        <div class="input-grp"><label>Tenant Phone</label><input type="text" id="phone"></div>
       </div>
-      <div class="grid-3" style="margin-top:1rem;">
-        <div class="input-grp"><label>Gas Safety Expiry</label><input type="date" id="gas-date"></div>
-        <div class="input-grp"><label>Elec (EICR) Expiry</label><input type="date" id="elec-date"></div>
-        <div class="input-grp"><label>EPC Expiry</label><input type="date" id="epc-date"></div>
+      
+      <div style="margin: 1.5rem 0; height: 1px; background: var(--line);"></div>
+      
+      <div class="grid-4">
+        <div class="input-grp">
+            <label>Gas Cert Date / Expiry</label>
+            <input type="date" id="gas_date" style="margin-bottom:5px">
+            <input type="date" id="gas_expiry">
+        </div>
+        <div class="input-grp">
+            <label>Elec (EICR) Date / Expiry</label>
+            <input type="date" id="elec_date" style="margin-bottom:5px">
+            <input type="date" id="elec_expiry">
+        </div>
+        <div class="input-grp">
+            <label>EPC Date / Expiry</label>
+            <input type="date" id="epc_date" style="margin-bottom:5px">
+            <input type="date" id="epc_expiry">
+        </div>
+        <div class="input-grp">
+            <label>Tenant Email</label>
+            <input type="email" id="email">
+        </div>
       </div>
-      <button type="submit" class="btn-primary" style="margin-top:1rem; width: auto; padding: 1rem 3rem;">Save Property Record</button>
+      <button type="submit" class="btn-primary" style="width: auto; padding: 1rem 3rem;">Save Property</button>
     </form>
   </div>
 
-  <div class="table-container" id="properties-list">
-    <p style="padding:2rem; text-align:center;">Loading property database...</p>
-  </div>
+  <div class="table-container" id="properties-list"></div>
 </main>
 
-<footer>
-  <img src="LogoGrok3C.png" alt="Move Wise" style="height:60px; margin-bottom:1rem;">
-  <p style="font-size:0.8rem; color:var(--mid)">&copy; 2025 Move Wise Estate Agents. Internal Compliance System.</p>
-</footer>
-
 <script>
-  // YOUR PROVIDED CREDENTIALS
   const SUPABASE_URL = "https://bthrwzqcfrqftfszxjih.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_IC5aFRMa1KXJsV74r4Lh7A_pQQAAo79";
-
-  // Initialize client
   const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // AUTH TOGGLE
+  let currentUser = null;
+
   function toggleAuth(isSignUp) {
     document.getElementById('auth-title').innerText = isSignUp ? "Create Agent Account" : "Agent Portal";
     document.getElementById('login-actions').style.display = isSignUp ? "none" : "block";
     document.getElementById('signup-actions').style.display = isSignUp ? "block" : "none";
   }
 
-  // SIGN UP
   async function signUp() {
     const email = document.getElementById('auth-email').value;
     const password = document.getElementById('auth-password').value;
     const { data, error } = await _supabase.auth.signUp({ email, password });
-    if (error) alert("Error: " + error.message);
-    else alert("Registration successful! Check your email for a confirmation link.");
+    if (error) alert(error.message); else alert("Check email for confirmation!");
   }
 
-  // LOGIN
   async function login() {
     const email = document.getElementById('auth-email').value;
     const password = document.getElementById('auth-password').value;
     const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
-    if (error) alert("Login Error: " + error.message);
-    else showApp(data.user);
+    if (error) alert(error.message); else showApp(data.user);
   }
 
-  // LOGOUT
-  async function logout() {
-    await _supabase.auth.signOut();
-    location.reload();
-  }
+  async function logout() { await _supabase.auth.signOut(); location.reload(); }
 
-  // UI SWITCH
   function showApp(user) {
+    currentUser = user;
     document.getElementById('auth-section').style.display = 'none';
     document.getElementById('app-section').style.display = 'block';
     document.getElementById('nav-auth-info').style.display = 'flex';
@@ -212,78 +165,110 @@
     fetchProperties();
   }
 
-  // ADD PROPERTY
   async function addProperty(e) {
     e.preventDefault();
-    const { error } = await _supabase.from('Properties').insert([{
+    const payload = {
+      user_id: currentUser.id,
       address: document.getElementById('address').value,
       postcode: document.getElementById('postcode').value,
-      gas_cert_expiry: document.getElementById('gas-date').value || null,
-      elec_cert_expiry: document.getElementById('elec-date').value || null,
-      epc_expiry: document.getElementById('epc-date').value || null
-    }]);
+      tenant_name: document.getElementById('tenant_name').value,
+      phone: document.getElementById('phone').value,
+      email: document.getElementById('email').value,
+      gas_cert_date: document.getElementById('gas_date').value || null,
+      gas_cert_expiry: document.getElementById('gas_expiry').value || null,
+      elec_cert_date: document.getElementById('elec_date').value || null,
+      elec_cert_expiry: document.getElementById('elec_expiry').value || null,
+      epc_date: document.getElementById('epc_date').value || null,
+      epc_expiry: document.getElementById('epc_expiry').value || null
+    };
 
+    const { error } = await _supabase.from('Properties').insert([payload]);
     if (error) alert("Database Error: " + error.message);
-    else {
-      document.getElementById('property-form').reset();
-      fetchProperties();
-    }
+    else { document.getElementById('property-form').reset(); fetchProperties(); }
   }
 
-  // FETCH LIST
   async function fetchProperties() {
-    const { data, error } = await _supabase.from('Properties').select('*').order('created_at', { ascending: false });
-    
-    if (error) {
-      document.getElementById('properties-list').innerHTML = "<p style='padding:2rem;'>Error loading properties.</p>";
-      return;
-    }
+    const { data, error } = await _supabase.from('Properties').select('*').order('id', { ascending: false });
+    if (error) { console.error(error); return; }
 
-    if (data.length === 0) {
-      document.getElementById('properties-list').innerHTML = "<p style='padding:2rem; text-align:center; color:var(--mid)'>No properties tracked yet.</p>";
-      return;
-    }
-
-    let html = `<table>
-      <tr>
-        <th>Property Address</th>
+    let html = `<table><tr>
+        <th>Property & Tenant</th>
         <th>Gas Safety</th>
         <th>Electrical (EICR)</th>
         <th>EPC</th>
-        <th>Action</th>
-      </tr>`;
+        <th>Actions</th>
+    </tr>`;
 
-    data.forEach(prop => {
+    data.forEach(p => {
       html += `<tr>
-        <td><strong>${prop.address}</strong><br><small style="color:var(--mid)">${prop.postcode || ''}</small></td>
-        <td>${formatDate(prop.gas_cert_expiry)}</td>
-        <td>${formatDate(prop.elec_cert_expiry)}</td>
-        <td>${formatDate(prop.epc_expiry)}</td>
-        <td><button onclick="deleteProp(${prop.id})" style="color:var(--danger); background:none; border:none; cursor:pointer; font-size:0.7rem; text-transform:uppercase;">Delete</button></td>
+        <td>
+            <strong>${p.address}</strong><br>${p.postcode || ''}<br>
+            <small>T: ${p.tenant_name || 'N/A'}<br>${p.phone || ''}</small>
+        </td>
+        <td>
+            <small>Done: ${p.gas_cert_date || '-'}</small><br>
+            ${formatStatus(p.gas_cert_expiry)}<br>
+            ${renderFileLink(p.id, p.gas_pdf_path, 'gas_pdf_path')}
+        </td>
+        <td>
+            <small>Done: ${p.elec_cert_date || '-'}</small><br>
+            ${formatStatus(p.elec_cert_expiry)}<br>
+            ${renderFileLink(p.id, p.elec_pdf_path, 'elec_pdf_path')}
+        </td>
+        <td>
+            <small>Done: ${p.epc_date || '-'}</small><br>
+            ${formatStatus(p.epc_expiry)}<br>
+            ${renderFileLink(p.id, p.epc_pdf_path, 'epc_pdf_path')}
+        </td>
+        <td>
+            <button onclick="deleteProp(${p.id})" style="color:var(--danger); border:none; background:none; cursor:pointer; font-size:0.7rem;">DELETE</button>
+        </td>
       </tr>`;
     });
-
-    html += `</table>`;
-    document.getElementById('properties-list').innerHTML = html;
+    document.getElementById('properties-list').innerHTML = html + `</table>`;
   }
 
-  function formatDate(dateStr) {
-    if (!dateStr) return '<span style="color:#ccc">—</span>';
-    const d = new Date(dateStr);
-    const today = new Date();
-    const isExpired = d < today;
-    const badgeClass = isExpired ? 'expired' : 'valid';
-    return `<span class="status-badge ${badgeClass}">${dateStr}</span>`;
+  function formatStatus(expiry) {
+    if (!expiry) return '<span style="color:#ccc; font-size:0.6rem">NO EXPIRY</span>';
+    const isExp = new Date(expiry) < new Date();
+    return `<span class="status-badge ${isExp ? 'expired' : 'valid'}">EXP: ${expiry}</span>`;
+  }
+
+  function renderFileLink(id, path, fieldName) {
+    if (path) {
+        const { data } = _supabase.storage.from('certificates').getPublicUrl(path);
+        return `<a href="${data.publicUrl}" target="_blank" class="file-link">View PDF</a>
+                <label class="upload-btn" style="margin-top:5px; display:inline-block">
+                    Update <input type="file" hidden onchange="handleUpload(this, ${id}, '${fieldName}')">
+                </label>`;
+    }
+    return `<label class="upload-btn">
+                Upload PDF <input type="file" hidden onchange="handleUpload(this, ${id}, '${fieldName}')">
+            </label>`;
+  }
+
+  async function handleUpload(input, id, fieldName) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const fileExt = file.name.split('.').pop();
+    const filePath = `${currentUser.id}/${id}/${fieldName}_${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await _supabase.storage.from('certificates').upload(filePath, file);
+    if (uploadError) { alert("Upload failed: " + uploadError.message); return; }
+
+    const { error: dbError } = await _supabase.from('Properties').update({ [fieldName]: filePath }).eq('id', id);
+    if (dbError) alert("Error saving file path: " + dbError.message);
+    else fetchProperties();
   }
 
   async function deleteProp(id) {
-    if (confirm("Delete this property record?")) {
+    if (confirm("Delete this record?")) {
       await _supabase.from('Properties').delete().eq('id', id);
       fetchProperties();
     }
   }
 
-  // AUTO-LOGIN CHECK
   window.onload = async () => {
     const { data: { session } } = await _supabase.auth.getSession();
     if (session) showApp(session.user);
