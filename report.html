@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Maintenance Portal | Move Wise</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root { 
+        --brand-green: #204d35; 
+        --brand-purple: #71307b; 
+        --line: rgba(28,27,24,0.08); 
+        --ink: #1c1b18; 
+        --off: #faf9f7;
+        --wa-green: #25D366;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Jost', sans-serif; background: var(--off); color: var(--ink); line-height: 1.6; }
+    
+    /* NAV - Matching index/management size */
+    nav { 
+        min-height: 110px; padding: 10px 5%; display: flex; 
+        align-items: center; justify-content: center; 
+        background: white; border-bottom: 1px solid var(--line); 
+    }
+    nav img { height: 130px; width: auto; }
+
+    .container { max-width: 700px; margin: 40px auto; padding: 0 20px; }
+    
+    .card { 
+        background: white; padding: 4rem; border: 1px solid var(--line); 
+        border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.03); 
+    }
+    
+    h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--brand-purple); margin-bottom: 1rem; text-align: center; }
+    .subtitle { text-align: center; color: #8a8880; margin-bottom: 3rem; font-size: 1.1rem; }
+
+    /* URGENT CONTACT SECTION */
+    .urgent-box {
+        background: #fff1f0; border: 1px solid #ffa39e; padding: 2rem;
+        margin-bottom: 3rem; border-radius: 4px; text-align: center;
+    }
+    .urgent-box h3 { color: #cf1322; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+
+    /* BUTTONS */
+    .btn-contact { 
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        padding: 0.8rem; border-radius: 4px; text-decoration: none; 
+        font-weight: 700; font-size: 0.75rem; text-transform: uppercase; transition: 0.3s;
+    }
+    .btn-wa { background: var(--wa-green); color: white; }
+    .btn-call { background: var(--brand-green); color: white; }
+    .btn-email { background: var(--brand-purple); color: white; }
+    .btn-contact:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    /* FORM STYLES */
+    .form-grp { margin-bottom: 1.5rem; }
+    .form-grp label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.6rem; color: var(--brand-green); letter-spacing: 0.1em; }
+    input, textarea { width: 100%; padding: 1rem; border: 1px solid var(--line); background: var(--off); font-family: inherit; outline: none; font-size: 1rem; }
+    input:focus, textarea:focus { border-color: var(--brand-purple); background: white; }
+
+    .btn-submit { 
+        width: 100%; padding: 1.2rem; background: var(--brand-green); 
+        color: white; border: none; font-weight: 700; text-transform: uppercase; 
+        cursor: pointer; letter-spacing: 0.15em; transition: 0.3s; margin-top: 1rem;
+        border-radius: 2px;
+    }
+    .btn-submit:hover { background: var(--brand-purple); }
+
+    footer { text-align: center; padding: 5rem 5%; font-size: 0.8rem; color: #8a8880; }
+    .footer-logo { height: 100px; margin-bottom: 1.5rem; opacity: 0.5; }
+
+    @media (max-width: 600px) {
+        .card { padding: 2rem; }
+        .contact-grid { grid-template-columns: 1fr; }
+        nav img { height: 90px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav><a href="managment.html"><img src="LogoGrok3C.png" alt="Move Wise"></a></nav>
+
+<div class="container">
+    
+    <!-- URGENT CONTACT OPTIONS -->
+    <div class="urgent-box">
+        <h3>Need Urgent Assistance?</h3>
+        <p style="font-size: 0.85rem; color: #851919; margin-bottom: 1.5rem;">For emergencies like water bursts or total power failure, please use the direct links below:</p>
+        <div class="contact-grid">
+            <a href="https://wa.me/441615540432" class="btn-contact btn-wa" target="_blank">WhatsApp</a>
+            <a href="tel:+441615540432" class="btn-contact btn-call">Call Office</a>
+            <a href="mailto:management@move-wise.uk" class="btn-contact btn-email">Email Us</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Maintenance Report</h2>
+        <p class="subtitle">Please provide precise details of the issue. A coordinator will review and assign a contractor within 24 hours.</p>
+
+        <form id="report-form">
+            <div class="form-grp">
+                <label>Property Address *</label>
+                <input type="text" id="address" required placeholder="Street name and house number">
+            </div>
+            <div class="form-grp">
+                <label>Postcode *</label>
+                <input type="text" id="postcode" required>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="form-grp">
+                    <label>Your Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-grp">
+                    <label>Contact Number</label>
+                    <input type="text" id="contact" required>
+                </div>
+            </div>
+            <div class="form-grp">
+                <label>Describe the Fault *</label>
+                <textarea id="description" rows="5" required placeholder="What is wrong? Where is it located in the house?"></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Submit Maintenance Request</button>
+        </form>
+
+        <div id="success-msg" style="display:none; text-align:center; padding: 2rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--brand-green);">✓</div>
+            <h3 style="font-family:'Playfair Display'; font-size: 2rem; color:var(--brand-green); margin-bottom: 1rem;">Submission Successful</h3>
+            <p>Your maintenance request has been logged. We will contact you shortly to arrange access.</p>
+            <br>
+            <a href="managment.html" style="color:var(--brand-purple); font-weight:700; text-decoration:none; text-transform:uppercase; font-size:0.8rem;">Return to Management Home</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <img src="LogoGrok3C.png" class="footer-logo" alt="Move Wise"><br>
+    &copy; 2025 Move Wise Estate Agents. Internal Maintenance System.
+</footer>
+
+<script>
+    const SUPABASE_URL = "https://bthrwzqcfrqftfszxjih.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_IC5aFRMa1KXJsV74r4Lh7A_pQQAAo79";
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Replace this with your specific Agent/User UUID
+    const AGENT_ID = "00000000-0000-0000-0000-000000000000"; 
+
+    document.getElementById('report-form').onsubmit = async (e) => {
+        e.preventDefault();
+        
+        const payload = {
+            agent_id: AGENT_ID, 
+            property_address_text: document.getElementById('address').value,
+            postcode_text: document.getElementById('postcode').value,
+            reporter_name: document.getElementById('name').value,
+            reporter_contact: document.getElementById('contact').value,
+            issue_description: document.getElementById('description').value,
+            status: 'New'
+        };
+
+        const { error } = await _supabase.from('ServiceRequests').insert([payload]);
+
+        if (error) {
+            alert("Submission failed. Error: " + error.message);
+        } else {
+            document.getElementById('report-form').style.display = 'none';
+            document.getElementById('success-msg').style.display = 'block';
+            window.scrollTo({ top: 100, behavior: 'smooth' });
+        }
+    };
+</script>
+
+</body>
+</html>

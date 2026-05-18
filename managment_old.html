@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Move Wise | Luxury Property Management & Lettings</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand-green: #204d35; --brand-purple: #71307b;
+      --off-white: #faf9f7; --white: #ffffff;
+      --line: rgba(28,27,24,0.08); --ink: #1c1b18; --mid: #8a8880;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Jost', sans-serif; background: var(--white); color: var(--ink); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      height: 90px; padding: 0 5%; display: flex; align-items: center; justify-content: space-between;
+      background: white; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo img { height: 65px; }
+    .nav-links a { text-decoration: none; color: var(--ink); margin-left: 30px; font-weight: 500; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; }
+    .nav-links a:hover { color: var(--brand-purple); }
+
+    /* HERO */
+    .hero {
+      height: 80vh; background: linear-gradient(rgba(32, 77, 53, 0.1), rgba(32, 77, 53, 0.1)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover; background-position: center;
+      display: flex; align-items: center; justify-content: center; text-align: center; color: var(--brand-green);
+    }
+    .hero-content { max-width: 800px; padding: 2rem; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.2rem; color: var(--mid); margin-bottom: 2rem; }
+
+    /* SECTION */
+    .section { padding: 6rem 5%; max-width: 1200px; margin: 0 auto; text-align: center; }
+    .section h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 3rem; color: var(--brand-purple); }
+    
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 3rem; }
+    .service-card { padding: 3rem; border: 1px solid var(--line); background: var(--off-white); transition: 0.3s; }
+    .service-card:hover { border-color: var(--brand-green); transform: translateY(-5px); }
+    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1rem; }
+    
+    .btn { display: inline-block; padding: 1rem 2.5rem; background: var(--brand-green); color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.3s; border-radius: 2px; border: none; cursor: pointer;}
+    .btn:hover { background: var(--brand-purple); }
+    .btn-outline { background: transparent; border: 1px solid var(--brand-green); color: var(--brand-green); }
+
+    /* CTA AREA */
+    .cta-banner { background: var(--brand-purple); color: white; padding: 5rem 5%; text-align: center; }
+    .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; }
+
+    footer { background: #111; color: #888; padding: 5rem 5%; text-align: center; }
+    .footer-logo { height: 60px; margin-bottom: 1.5rem; filter: brightness(0) invert(1); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><img src="LogoGrok3C.png" alt="Move Wise"></div>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#services">Services</a>
+    <a href="https://www.rightmove.co.uk" target="_blank" style="color:var(--brand-purple); font-weight:700">View Listings</a>
+    <a href="report.html" class="btn" style="color:white; margin-left: 20px; padding: 0.6rem 1.2rem;">Report Issue</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-content">
+    <h1>Boutique Management. Reliable Returns.</h1>
+    <p>We provide a sophisticated property management experience for landlords who value integrity, compliance, and excellence.</p>
+    <a href="https://www.rightmove.co.uk" target="_blank" class="btn">View Current Properties on Rightmove</a>
+  </div>
+</header>
+
+<section class="section" id="services">
+  <h2>Our Core Services</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <h3>Full Management</h3>
+      <p>From tenant vetting to 24/7 maintenance, we handle every detail so you don't have to. Peace of mind guaranteed.</p>
+    </div>
+    <div class="service-card">
+      <h3>Compliance First</h3>
+      <p>Safety is our priority. We track EPC, Gas Safety, and EICR records with military precision to keep you legally protected.</p>
+    </div>
+    <div class="service-card">
+      <h3>Rent Collection</h3>
+      <p>Sophisticated automated tracking ensures your rent is paid on time, every time, with clear digital statements provided monthly.</p>
+    </div>
+  </div>
+</section>
+
+<div class="cta-banner">
+  <h2>Managed by Move Wise?</h2>
+  <p style="margin-bottom:2rem; opacity:0.9">If you are a tenant or owner of a property we manage, report maintenance issues directly through our portal.</p>
+  <a href="report.html" class="btn" style="background:white; color:var(--brand-purple)">Start Maintenance Report</a>
+</div>
+
+<section class="section">
+  <h2>Why Landlords Trust Us</h2>
+  <div style="max-width:800px; margin: 0 auto; color: var(--mid);">
+    <p style="margin-bottom:1.5rem">At Move Wise, we understand that your property is more than just an asset—it’s an investment in your future. That’s why we apply a rigorous screening process to all prospective tenants, ensuring only the most reliable individuals occupy your homes.</p>
+    <p>Our proactive approach to maintenance prevents minor issues from becoming major costs, and our deep understanding of the UK rental market ensures your portfolio achieves its maximum potential ROI.</p>
+  </div>
+</section>
+
+<footer>
+  <img src="LogoGrok3C.png" class="footer-logo" alt="Move Wise">
+  <p>&copy; 2025 Move Wise Estate Agents. Regulated by ARLA Propertymark.</p>
+  <p style="font-size:0.7rem; margin-top:1rem">London | Manchester | Birmingham</p>
+</footer>
+
+</body>
+</html>

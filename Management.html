@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Move Wise | Luxury Property Management & Lettings</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand-green: #204d35; 
+      --brand-purple: #71307b;
+      --off-white: #faf9f7; 
+      --white: #ffffff;
+      --line: rgba(28,27,24,0.08); 
+      --ink: #1c1b18; 
+      --mid: #8a8880;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Jost', sans-serif; background: var(--white); color: var(--ink); line-height: 1.6; }
+
+    /* NAV - Adjusted for larger logo */
+    nav {
+      min-height: 110px; padding: 10px 5%; display: flex; align-items: center; justify-content: space-between;
+      background: white; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo img { height: 130px; width: auto; display: block; } /* BIG LOGO */
+
+    .nav-links { display: flex; align-items: center; }
+    .nav-links a { 
+        text-decoration: none; color: var(--ink); margin-left: 35px; 
+        font-weight: 600; font-size: 0.85rem; text-transform: uppercase; 
+        letter-spacing: 0.1em; transition: 0.3s; 
+    }
+    .nav-links a:hover { color: var(--brand-purple); }
+
+    /* HERO */
+    .hero {
+      height: 85vh; background: linear-gradient(rgba(32, 77, 53, 0.15), rgba(32, 77, 53, 0.15)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover; background-position: center;
+      display: flex; align-items: center; justify-content: center; text-align: center; color: var(--brand-green);
+    }
+    .hero-content { 
+        max-width: 850px; padding: 4rem; 
+        background: rgba(255,255,255,0.92); 
+        backdrop-filter: blur(15px);
+        border-radius: 4px;
+    }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1.5rem; line-height: 1.1; }
+    .hero p { font-size: 1.25rem; color: var(--mid); margin-bottom: 2.5rem; font-weight: 300; }
+
+    /* SECTION */
+    .section { padding: 8rem 5%; max-width: 1300px; margin: 0 auto; text-align: center; }
+    .section h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 3.5rem; color: var(--brand-purple); }
+    
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; margin-top: 3rem; }
+    .service-card { padding: 4rem 3rem; border: 1px solid var(--line); background: var(--off-white); transition: 0.4s; }
+    .service-card:hover { border-color: var(--brand-green); transform: translateY(-10px); background: white; box-shadow: 0 20px 40px rgba(0,0,0,0.03); }
+    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1.2rem; color: var(--brand-green); }
+    .service-card p { color: var(--mid); font-size: 1rem; }
+    
+    .btn { 
+        display: inline-block; padding: 1.2rem 2.8rem; background: var(--brand-green); 
+        color: white; text-decoration: none; font-weight: 700; text-transform: uppercase; 
+        letter-spacing: 0.15em; transition: 0.3s; border-radius: 2px; border: none; cursor: pointer;
+        font-size: 0.8rem;
+    }
+    .btn:hover { background: var(--brand-purple); transform: translateY(-2px); }
+
+    /* CTA AREA */
+    .cta-banner { background: var(--brand-purple); color: white; padding: 7rem 5%; text-align: center; }
+    .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 1.5rem; }
+    .cta-banner p { font-size: 1.2rem; margin-bottom: 3rem; opacity: 0.9; max-width: 700px; margin-left: auto; margin-right: auto; }
+
+    /* FOOTER */
+    footer { background: #111; color: #888; padding: 6rem 5%; text-align: center; border-top: 5px solid var(--brand-green); }
+    .footer-logo { height: 120px; width: auto; margin-bottom: 2rem; filter: brightness(0) invert(1); } /* BIG LOGO */
+    footer p { font-size: 0.9rem; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+
+    @media (max-width: 900px) {
+        .nav-logo img { height: 90px; }
+        .nav-links { display: none; }
+        .hero-content { padding: 2rem; width: 90%; }
+        .section { padding: 4rem 5%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+      <a href="#"><img src="LogoGrok3C.png" alt="Move Wise"></a>
+  </div>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#services">Landlord Services</a>
+    <a href="https://www.rightmove.co.uk/property-to-rent/find/Move-Wise/Manchester.html?locationIdentifier=BRANCH%5E301898" target="_blank" style="color:var(--brand-purple); font-weight:800">Available Properties</a>
+    <a href="report.html" class="btn" style="color:white; margin-left: 30px;">Report Maintenance</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-content">
+    <h1>Boutique Management.<br>Expert Returns.</h1>
+    <p>Move Wise provides a sophisticated property management experience for landlords who value integrity, digital compliance, and local excellence.</p>
+    <a href="https://www.rightmove.co.uk/property-to-rent/find/Move-Wise/Manchester.html?locationIdentifier=BRANCH%5E301898" target="_blank" class="btn">View Properties on Rightmove</a>
+  </div>
+</header>
+
+<section class="section" id="services">
+  <p style="text-transform:uppercase; letter-spacing: 0.3em; font-weight:700; color:var(--mid); margin-bottom:1rem; font-size:0.7rem;">Our Management Suite</p>
+  <h2>Tailored For Success</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <h3>Full Management</h3>
+      <p>A hands-off experience for the professional landlord. We handle tenant sourcing, referencing, 24/7 maintenance response, and regular inspections.</p>
+    </div>
+    <div class="service-card">
+      <h3>Compliance Guard</h3>
+      <p>We use proprietary digital tracking to ensure your EPC, Gas Safety, and Electrical records never expire, keeping you and your tenants safe.</p>
+    </div>
+    <div class="service-card">
+      <h3>Financial Clarity</h3>
+      <p>Automated rent collection with instant digital statements. We ensure payments are tracked, chased, and deposited with zero friction.</p>
+    </div>
+  </div>
+</section>
+
+<div class="cta-banner">
+  <h2>Managed by Move Wise?</h2>
+  <p>Our tenants enjoy a seamless repair process. If you have an issue with your managed property, report it instantly via our secure portal.</p>
+  <a href="report.html" class="btn" style="background:white; color:var(--brand-purple)">Access Maintenance Portal</a>
+</div>
+
+<section class="section">
+  <h2>Why Landlords Trust Us</h2>
+  <div style="max-width:850px; margin: 0 auto; color: var(--mid); text-align: left; background: var(--off-white); padding: 4rem; border-radius: 4px;">
+    <p style="margin-bottom:1.5rem; font-size: 1.1rem; line-height: 1.8;">At Move Wise, we understand that your property is more than just an asset—it’s an investment in your future. That’s why we apply a rigorous 5-point screening process to all prospective tenants, ensuring only the most reliable individuals occupy your homes.</p>
+    <p style="font-size: 1.1rem; line-height: 1.8;">Our proactive approach to maintenance prevents minor issues from becoming major costs, and our deep understanding of the UK rental market ensures your portfolio achieves its maximum potential ROI while remaining 100% compliant with changing legislation.</p>
+  </div>
+</section>
+
+<footer>
+  <img src="LogoGrok3C.png" class="footer-logo" alt="Move Wise">
+  <p style="color:white; font-weight:700; margin-bottom:1rem;">MOVE WISE ESTATE AGENTS</p>
+  <p>&copy; 2025 Move Wise Estate Agents. Regulated by ARLA Propertymark.</p>
+  <p style="font-size:0.75rem; margin-top:1.5rem; color: #555;">Manchester HQ: 3 Hardman Street, Spinningfields, M3 3HF</p>
+  <p style="font-size:0.75rem; color: #555;">London | Manchester | Birmingham</p>
+</footer>
+
+</body>
+</html>
