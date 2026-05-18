@@ -3,276 +3,298 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Move Wise | Property Compliance Tracker</title>
+  <title>Move Wise | Compliance & Tenancy</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --white:   #ffffff; --off: #faf9f7; --pale: #f3f1ed;
-      --ink:     #1c1b18; --brand-green: #204d35; 
-      --brand-purple: #71307b; --brand-teal: #2d8080; 
-      --mid: #8a8880; --line: rgba(28,27,24,0.08); --danger: #bc2c2c;
+      --brand-green: #204d35; --brand-purple: #71307b;
+      --off-white: #faf9f7; --line: rgba(0,0,0,0.08);
+      --text: #1c1b18; --mid: #8a8880;
     }
-    body { font-family: 'Jost', sans-serif; background: var(--off); color: var(--ink); line-height: 1.6; }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Jost', sans-serif; background: var(--off-white); color: var(--text); overflow-x: hidden; }
+
+    /* LAYOUT */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5%; height: 80px; background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(20px); border-bottom: 1px solid var(--line);
+      height: 80px; padding: 0 5%; display: flex; align-items: center; justify-content: space-between;
+      background: white; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 100;
     }
-    .nav-logo img { height: 60px; width: auto; }
-    .nav-user { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--mid); letter-spacing: 0.1em; }
-    .btn-logout { background: none; border: 1px solid var(--line); padding: 0.4rem 0.8rem; font-size: 0.7rem; cursor: pointer; margin-left: 10px; font-family: 'Jost'; }
-
-    .auth-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
-    .auth-card { background: white; width: 100%; max-width: 400px; padding: 3rem; box-shadow: 0 20px 50px rgba(0,0,0,0.05); border-radius: 4px; }
-    .auth-card h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1.5rem; color: var(--brand-purple); text-align: center; }
-
-    .input-grp { margin-bottom: 1.2rem; }
-    .input-grp label { display: block; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; color: var(--brand-green); }
-    input { width: 100%; padding: 0.8rem; background: var(--off); border: 1px solid var(--line); font-family: inherit; outline: none; font-size: 0.9rem; }
-    input:focus { border-color: var(--brand-purple); }
-
-    .btn-primary { background: var(--brand-green); color: white; border: none; padding: 1rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; cursor: pointer; width: 100%; transition: 0.3s; }
-    .btn-primary:hover { background: var(--brand-purple); }
-
-    .app-wrap { max-width: 1400px; margin: 120px auto 5rem; padding: 0 5%; }
-    .card-panel { background: white; padding: 2rem; border: 1px solid var(--line); margin-bottom: 3rem; }
-    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-
-    .table-container { background: white; border: 1px solid var(--line); overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; text-align: left; min-width: 1000px; }
-    th { background: #f8f9fa; padding: 1rem; font-size: 0.65rem; text-transform: uppercase; border-bottom: 2px solid var(--line); }
-    td { padding: 1rem; border-bottom: 1px solid var(--line); font-size: 0.85rem; vertical-align: top; }
-
-    .status-badge { font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; display: inline-block; margin-top: 4px; }
-    .expired { background: #fee2e2; color: #991b1b; }
-    .valid { background: #f0fdf4; color: #166534; }
+    .logo { height: 50px; }
     
-    .file-link { display: block; margin-top: 5px; color: var(--brand-purple); text-decoration: none; font-weight: 600; font-size: 0.7rem; }
-    .upload-btn { font-size: 0.65rem; cursor: pointer; background: #eee; padding: 2px 5px; border-radius: 3px; border: 1px solid #ddd; }
+    .container { max-width: 1400px; margin: 40px auto; padding: 0 5%; }
+    .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; }
+
+    /* BUTTONS */
+    .btn { padding: 0.8rem 1.5rem; border-radius: 4px; font-family: 'Jost'; font-weight: 600; cursor: pointer; border: none; transition: 0.3s; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+    .btn-main { background: var(--brand-green); color: white; }
+    .btn-main:hover { background: var(--brand-purple); }
+    .btn-outline { background: transparent; border: 1px solid var(--line); color: var(--text); }
     
-    footer { background: var(--pale); padding: 4rem 5%; border-top: 1px solid var(--line); text-align: center; }
+    /* TABLE */
+    .card { background: white; border-radius: 8px; border: 1px solid var(--line); overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th { padding: 1.2rem; background: #fcfcfb; font-size: 0.7rem; text-transform: uppercase; color: var(--mid); letter-spacing: 0.1em; border-bottom: 1px solid var(--line); }
+    td { padding: 1.2rem; border-bottom: 1px solid var(--line); font-size: 0.9rem; vertical-align: top; }
+    tr:hover { background: #fafafa; }
+
+    /* BADGES */
+    .status { font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; font-weight: 600; display: inline-block; margin-top: 5px; }
+    .valid { background: #eefdf5; color: #15803d; }
+    .warning { background: #fffbeb; color: #b45309; }
+    .danger { background: #fef2f2; color: #b91c1c; }
+
+    /* OVERLAY/MODAL */
+    .overlay {
+      position: fixed; top: 0; right: 0; bottom: 0; left: 0; 
+      background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+      display: none; justify-content: flex-end; z-index: 1000;
+    }
+    .drawer {
+      width: 100%; max-width: 500px; background: white; height: 100%;
+      padding: 3rem; overflow-y: auto; position: relative;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+      transform: translateX(100%); transition: transform 0.4s ease;
+    }
+    .overlay.active { display: flex; }
+    .overlay.active .drawer { transform: translateX(0); }
+
+    .form-grp { margin-bottom: 1.5rem; }
+    .form-grp label { display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem; color: var(--brand-green); }
+    input { width: 100%; padding: 0.8rem; border: 1px solid var(--line); background: var(--off-white); font-family: inherit; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .file-pill { background: var(--off-white); padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; text-decoration: none; color: var(--brand-purple); font-weight: 600; display: inline-block; border: 1px solid var(--line); }
   </style>
 </head>
 <body>
 
 <nav>
-  <a href="#" class="nav-logo"><img src="LogoGrok3C.png" alt="Move Wise"></a>
-  <div id="nav-auth-info" style="display:none;">
-    <span class="nav-user" id="user-display"></span>
-    <button class="btn-logout" onclick="logout()">Logout</button>
+  <img src="LogoGrok3C.png" class="logo" alt="Move Wise">
+  <div id="user-info" style="display:none">
+    <span id="user-email" style="font-size:0.8rem; margin-right:15px; font-weight:600"></span>
+    <button class="btn btn-outline" onclick="logout()">Logout</button>
   </div>
 </nav>
 
-<div id="auth-section" class="auth-container">
-  <div class="auth-card">
-    <h2 id="auth-title">Agent Portal</h2>
-    <div class="input-grp"><label>Email</label><input type="email" id="auth-email"></div>
-    <div class="input-grp"><label>Password</label><input type="password" id="auth-password"></div>
-    <div id="login-actions">
-      <button class="btn-primary" onclick="login()">Login</button>
-      <p style="text-align:center; font-size:0.8rem; margin-top:1.5rem;">No account? <a href="javascript:void(0)" onclick="toggleAuth(true)" style="color:var(--brand-purple)">Register</a></p>
+<!-- AUTH -->
+<div id="auth-screen" class="container" style="max-width:400px; margin-top:100px;">
+    <div class="card" style="padding:2rem;">
+        <h2 style="font-family:'Playfair Display'; margin-bottom:2rem; text-align:center">Agent Portal</h2>
+        <div class="form-grp"><label>Email</label><input type="email" id="auth-email"></div>
+        <div class="form-grp"><label>Password</label><input type="password" id="auth-password"></div>
+        <button class="btn btn-main" style="width:100%" onclick="login()">Sign In</button>
     </div>
-    <div id="signup-actions" style="display:none;">
-      <button class="btn-primary" onclick="signUp()">Create Account</button>
-      <p style="text-align:center; font-size:0.8rem; margin-top:1.5rem;">Have an account? <a href="javascript:void(0)" onclick="toggleAuth(false)" style="color:var(--brand-purple)">Login</a></p>
-    </div>
-  </div>
 </div>
 
-<main id="app-section" class="app-wrap" style="display:none;">
-  <div class="card-panel">
-    <h3 style="font-family:'Playfair Display'; margin-bottom:1.5rem;">Add New Property Record</h3>
-    <form id="property-form" onsubmit="addProperty(event)">
-      <div class="grid-4">
-        <div class="input-grp"><label>Property Address *</label><input type="text" id="address" required></div>
-        <div class="input-grp"><label>Postcode</label><input type="text" id="postcode"></div>
-        <div class="input-grp"><label>Tenant Name</label><input type="text" id="tenant_name"></div>
-        <div class="input-grp"><label>Tenant Phone</label><input type="text" id="phone"></div>
-      </div>
-      
-      <div style="margin: 1.5rem 0; height: 1px; background: var(--line);"></div>
-      
-      <div class="grid-4">
-        <div class="input-grp">
-            <label>Gas Cert Date / Expiry</label>
-            <input type="date" id="gas_date" style="margin-bottom:5px">
-            <input type="date" id="gas_expiry">
-        </div>
-        <div class="input-grp">
-            <label>Elec (EICR) Date / Expiry</label>
-            <input type="date" id="elec_date" style="margin-bottom:5px">
-            <input type="date" id="elec_expiry">
-        </div>
-        <div class="input-grp">
-            <label>EPC Date / Expiry</label>
-            <input type="date" id="epc_date" style="margin-bottom:5px">
-            <input type="date" id="epc_expiry">
-        </div>
-        <div class="input-grp">
-            <label>Tenant Email</label>
-            <input type="email" id="email">
-        </div>
-      </div>
-      <button type="submit" class="btn-primary" style="width: auto; padding: 1rem 3rem;">Save Property</button>
-    </form>
-  </div>
+<!-- MAIN DASHBOARD -->
+<div id="main-dashboard" class="container" style="display:none">
+    <div class="header-actions">
+        <h1>Property Compliance</h1>
+        <button class="btn btn-main" onclick="openDrawer()">+ Add Property</button>
+    </div>
 
-  <div class="table-container" id="properties-list"></div>
-</main>
+    <div class="card">
+        <table id="property-table">
+            <thead>
+                <tr>
+                    <th>Address & Tenant</th>
+                    <th>Compliance (Gas/Elec/EPC)</th>
+                    <th>Tenancy Period</th>
+                    <th>Documents</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Data here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- DRAWER OVERLAY -->
+<div class="overlay" id="drawer-overlay" onclick="closeDrawer(event)">
+    <div class="drawer" onclick="event.stopPropagation()">
+        <h2 id="drawer-title" style="font-family:'Playfair Display'; margin-bottom:2rem;">Add Property</h2>
+        <form id="prop-form">
+            <input type="hidden" id="prop-id">
+            
+            <div class="form-grp"><label>Property Address *</label><input type="text" id="address" required></div>
+            <div class="grid-2">
+                <div class="form-grp"><label>Postcode</label><input type="text" id="postcode"></div>
+                <div class="form-grp"><label>Tenant Name</label><input type="text" id="tenant_name"></div>
+            </div>
+
+            <p style="font-size: 0.8rem; font-weight: 700; margin-bottom: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 5px;">COMPLIANCE DATES</p>
+            <div class="grid-2">
+                <div class="form-grp"><label>Gas Safety Expiry</label><input type="date" id="gas_cert_expiry"></div>
+                <div class="form-grp"><label>Elec EICR Expiry</label><input type="date" id="elec_cert_expiry"></div>
+            </div>
+            <div class="form-grp"><label>EPC Expiry</label><input type="date" id="epc_expiry"></div>
+
+            <p style="font-size: 0.8rem; font-weight: 700; margin-bottom: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 5px;">TENANCY DETAILS</p>
+            <div class="grid-2">
+                <div class="form-grp"><label>Start Date</label><input type="date" id="tenancy_start"></div>
+                <div class="form-grp"><label>End Date</label><input type="date" id="tenancy_end"></div>
+            </div>
+
+            <div style="margin-top: 2rem; display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-main" style="flex:1">Save Record</button>
+                <button type="button" class="btn btn-outline" onclick="closeDrawer()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script>
-  const SUPABASE_URL = "https://bthrwzqcfrqftfszxjih.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_IC5aFRMa1KXJsV74r4Lh7A_pQQAAo79";
-  const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const SUPABASE_URL = "https://bthrwzqcfrqftfszxjih.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_IC5aFRMa1KXJsV74r4Lh7A_pQQAAo79";
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  let currentUser = null;
+    let allProperties = [];
 
-  function toggleAuth(isSignUp) {
-    document.getElementById('auth-title').innerText = isSignUp ? "Create Agent Account" : "Agent Portal";
-    document.getElementById('login-actions').style.display = isSignUp ? "none" : "block";
-    document.getElementById('signup-actions').style.display = isSignUp ? "block" : "none";
-  }
-
-  async function signUp() {
-    const email = document.getElementById('auth-email').value;
-    const password = document.getElementById('auth-password').value;
-    const { data, error } = await _supabase.auth.signUp({ email, password });
-    if (error) alert(error.message); else alert("Check email for confirmation!");
-  }
-
-  async function login() {
-    const email = document.getElementById('auth-email').value;
-    const password = document.getElementById('auth-password').value;
-    const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
-    if (error) alert(error.message); else showApp(data.user);
-  }
-
-  async function logout() { await _supabase.auth.signOut(); location.reload(); }
-
-  function showApp(user) {
-    currentUser = user;
-    document.getElementById('auth-section').style.display = 'none';
-    document.getElementById('app-section').style.display = 'block';
-    document.getElementById('nav-auth-info').style.display = 'flex';
-    document.getElementById('user-display').innerText = user.email;
-    fetchProperties();
-  }
-
-  async function addProperty(e) {
-    e.preventDefault();
-    const payload = {
-      user_id: currentUser.id,
-      address: document.getElementById('address').value,
-      postcode: document.getElementById('postcode').value,
-      tenant_name: document.getElementById('tenant_name').value,
-      phone: document.getElementById('phone').value,
-      email: document.getElementById('email').value,
-      gas_cert_date: document.getElementById('gas_date').value || null,
-      gas_cert_expiry: document.getElementById('gas_expiry').value || null,
-      elec_cert_date: document.getElementById('elec_date').value || null,
-      elec_cert_expiry: document.getElementById('elec_expiry').value || null,
-      epc_date: document.getElementById('epc_date').value || null,
-      epc_expiry: document.getElementById('epc_expiry').value || null
-    };
-
-    const { error } = await _supabase.from('Properties').insert([payload]);
-    if (error) alert("Database Error: " + error.message);
-    else { document.getElementById('property-form').reset(); fetchProperties(); }
-  }
-
-  async function fetchProperties() {
-    const { data, error } = await _supabase.from('Properties').select('*').order('id', { ascending: false });
-    if (error) { console.error(error); return; }
-
-    let html = `<table><tr>
-        <th>Property & Tenant</th>
-        <th>Gas Safety</th>
-        <th>Electrical (EICR)</th>
-        <th>EPC</th>
-        <th>Actions</th>
-    </tr>`;
-
-    data.forEach(p => {
-      html += `<tr>
-        <td>
-            <strong>${p.address}</strong><br>${p.postcode || ''}<br>
-            <small>T: ${p.tenant_name || 'N/A'}<br>${p.phone || ''}</small>
-        </td>
-        <td>
-            <small>Done: ${p.gas_cert_date || '-'}</small><br>
-            ${formatStatus(p.gas_cert_expiry)}<br>
-            ${renderFileLink(p.id, p.gas_pdf_path, 'gas_pdf_path')}
-        </td>
-        <td>
-            <small>Done: ${p.elec_cert_date || '-'}</small><br>
-            ${formatStatus(p.elec_cert_expiry)}<br>
-            ${renderFileLink(p.id, p.elec_pdf_path, 'elec_pdf_path')}
-        </td>
-        <td>
-            <small>Done: ${p.epc_date || '-'}</small><br>
-            ${formatStatus(p.epc_expiry)}<br>
-            ${renderFileLink(p.id, p.epc_pdf_path, 'epc_pdf_path')}
-        </td>
-        <td>
-            <button onclick="deleteProp(${p.id})" style="color:var(--danger); border:none; background:none; cursor:pointer; font-size:0.7rem;">DELETE</button>
-        </td>
-      </tr>`;
-    });
-    document.getElementById('properties-list').innerHTML = html + `</table>`;
-  }
-
-  function formatStatus(expiry) {
-    if (!expiry) return '<span style="color:#ccc; font-size:0.6rem">NO EXPIRY</span>';
-    const isExp = new Date(expiry) < new Date();
-    return `<span class="status-badge ${isExp ? 'expired' : 'valid'}">EXP: ${expiry}</span>`;
-  }
-
-  function renderFileLink(id, path, fieldName) {
-    if (path) {
-        const { data } = _supabase.storage.from('certificates').getPublicUrl(path);
-        return `<a href="${data.publicUrl}" target="_blank" class="file-link">View PDF</a>
-                <label class="upload-btn" style="margin-top:5px; display:inline-block">
-                    Update <input type="file" hidden onchange="handleUpload(this, ${id}, '${fieldName}')">
-                </label>`;
+    async function login() {
+        const email = document.getElementById('auth-email').value;
+        const password = document.getElementById('auth-password').value;
+        const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+        if (error) alert(error.message); else checkUser();
     }
-    return `<label class="upload-btn">
-                Upload PDF <input type="file" hidden onchange="handleUpload(this, ${id}, '${fieldName}')">
-            </label>`;
-  }
 
-  async function handleUpload(input, id, fieldName) {
-    const file = input.files[0];
-    if (!file) return;
+    async function logout() { await _supabase.auth.signOut(); location.reload(); }
 
-    const fileExt = file.name.split('.').pop();
-    const filePath = `${currentUser.id}/${id}/${fieldName}_${Date.now()}.${fileExt}`;
-
-    const { error: uploadError } = await _supabase.storage.from('certificates').upload(filePath, file);
-    if (uploadError) { alert("Upload failed: " + uploadError.message); return; }
-
-    const { error: dbError } = await _supabase.from('Properties').update({ [fieldName]: filePath }).eq('id', id);
-    if (dbError) alert("Error saving file path: " + dbError.message);
-    else fetchProperties();
-  }
-
-  async function deleteProp(id) {
-    if (confirm("Delete this record?")) {
-      await _supabase.from('Properties').delete().eq('id', id);
-      fetchProperties();
+    async function checkUser() {
+        const { data: { session } } = await _supabase.auth.getSession();
+        if (session) {
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('main-dashboard').style.display = 'block';
+            document.getElementById('user-info').style.display = 'flex';
+            document.getElementById('user-email').innerText = session.user.email;
+            fetchProperties();
+        }
     }
-  }
 
-  window.onload = async () => {
-    const { data: { session } } = await _supabase.auth.getSession();
-    if (session) showApp(session.user);
-  };
+    function openDrawer(data = null) {
+        const drawer = document.getElementById('drawer-overlay');
+        const form = document.getElementById('prop-form');
+        form.reset();
+        document.getElementById('prop-id').value = '';
+        document.getElementById('drawer-title').innerText = data ? 'Edit Property' : 'Add Property';
+        
+        if (data) {
+            document.getElementById('prop-id').value = data.id;
+            document.getElementById('address').value = data.address;
+            document.getElementById('postcode').value = data.postcode;
+            document.getElementById('tenant_name').value = data.tenant_name;
+            document.getElementById('gas_cert_expiry').value = data.gas_cert_expiry;
+            document.getElementById('elec_cert_expiry').value = data.elec_cert_expiry;
+            document.getElementById('epc_expiry').value = data.epc_expiry;
+            document.getElementById('tenancy_start').value = data.tenancy_start;
+            document.getElementById('tenancy_end').value = data.tenancy_end;
+        }
+        drawer.classList.add('active');
+    }
+
+    function closeDrawer() { document.getElementById('drawer-overlay').classList.remove('active'); }
+
+    async function fetchProperties() {
+        const { data, error } = await _supabase.from('Properties').select('*').order('created_at', { ascending: false });
+        if (data) {
+            allProperties = data;
+            renderTable(data);
+        }
+    }
+
+    function renderTable(props) {
+        const body = document.getElementById('table-body');
+        body.innerHTML = props.map(p => `
+            <tr>
+                <td><strong>${p.address}</strong><br><small>${p.tenant_name || 'No Tenant'}</small></td>
+                <td>
+                    ${statusBadge('Gas', p.gas_cert_expiry)} 
+                    ${statusBadge('Elec', p.elec_cert_expiry)} 
+                    ${statusBadge('EPC', p.epc_expiry)}
+                </td>
+                <td>
+                    <small>Start: ${p.tenancy_start || '-'}</small><br>
+                    <small>End: ${p.tenancy_end || '-'}</small>
+                </td>
+                <td>
+                    <div style="display:flex; flex-direction:column; gap:4px">
+                        ${docLink(p.id, 'gas_pdf_path', 'Gas Cert', p.gas_pdf_path)}
+                        ${docLink(p.id, 'tenancy_pdf_path', 'Tenancy Agmt', p.tenancy_pdf_path)}
+                    </div>
+                </td>
+                <td>
+                    <button class="btn btn-outline" style="padding:5px 10px; font-size:0.6rem" onclick='openDrawer(${JSON.stringify(p)})'>Edit</button>
+                    <button class="btn btn-outline" style="padding:5px 10px; font-size:0.6rem; color:red" onclick="deleteProp(${p.id})">Del</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function statusBadge(label, date) {
+        if (!date) return `<span class="status danger">${label}: Missing</span>`;
+        const isExp = new Date(date) < new Date();
+        return `<span class="status ${isExp ? 'danger' : 'valid'}">${label}: ${date}</span>`;
+    }
+
+    function docLink(id, field, label, path) {
+        if (path) {
+            const { data } = _supabase.storage.from('certificates').getPublicUrl(path);
+            return `<a href="${data.publicUrl}" target="_blank" class="file-pill">View ${label}</a>`;
+        }
+        return `<label style="cursor:pointer; font-size:0.65rem; color:var(--mid)">+ Upload ${label} 
+                <input type="file" hidden onchange="uploadFile(this, ${id}, '${field}')"></label>`;
+    }
+
+    async function uploadFile(input, id, field) {
+        const file = input.files[0];
+        const path = `docs/${id}/${field}_${Date.now()}.pdf`;
+        const { error: upErr } = await _supabase.storage.from('certificates').upload(path, file);
+        if (!upErr) {
+            await _supabase.from('Properties').update({ [field]: path }).eq('id', id);
+            fetchProperties();
+        }
+    }
+
+    document.getElementById('prop-form').onsubmit = async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('prop-id').value;
+        const payload = {
+            address: document.getElementById('address').value,
+            postcode: document.getElementById('postcode').value,
+            tenant_name: document.getElementById('tenant_name').value,
+            gas_cert_expiry: document.getElementById('gas_cert_expiry').value || null,
+            elec_cert_expiry: document.getElementById('elec_cert_expiry').value || null,
+            epc_expiry: document.getElementById('epc_expiry').value || null,
+            tenancy_start: document.getElementById('tenancy_start').value || null,
+            tenancy_end: document.getElementById('tenancy_end').value || null,
+        };
+
+        if (id) {
+            await _supabase.from('Properties').update(payload).eq('id', id);
+        } else {
+            const { data: { user } } = await _supabase.auth.getUser();
+            payload.user_id = user.id;
+            await _supabase.from('Properties').insert([payload]);
+        }
+        closeDrawer();
+        fetchProperties();
+    }
+
+    async function deleteProp(id) {
+        if (confirm("Delete this property?")) {
+            await _supabase.from('Properties').delete().eq('id', id);
+            fetchProperties();
+        }
+    }
+
+    window.onload = checkUser;
 </script>
 
 </body>
