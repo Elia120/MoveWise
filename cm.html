@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Move Wise | Compliance & Tenancy</title>
-  
+  <title>Move Wise | Secure Compliance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,138 +12,111 @@
     :root {
       --brand-green: #204d35; --brand-purple: #71307b;
       --off-white: #faf9f7; --line: rgba(0,0,0,0.08);
-      --text: #1c1b18; --mid: #8a8880;
+      --text: #1c1b18; --mid: #8a8880; --danger: #bc2c2c;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Jost', sans-serif; background: var(--off-white); color: var(--text); overflow-x: hidden; }
+    body { font-family: 'Jost', sans-serif; background: var(--off-white); color: var(--text); }
 
-    /* LAYOUT */
-    nav {
-      height: 80px; padding: 0 5%; display: flex; align-items: center; justify-content: space-between;
-      background: white; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 100;
-    }
+    nav { height: 80px; padding: 0 5%; display: flex; align-items: center; justify-content: space-between; background: white; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 100; }
     .logo { height: 50px; }
-    
     .container { max-width: 1400px; margin: 40px auto; padding: 0 5%; }
     .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
     h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; }
 
-    /* BUTTONS */
-    .btn { padding: 0.8rem 1.5rem; border-radius: 4px; font-family: 'Jost'; font-weight: 600; cursor: pointer; border: none; transition: 0.3s; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+    .btn { padding: 0.8rem 1.5rem; border-radius: 4px; font-weight: 600; cursor: pointer; border: none; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.1em; transition: 0.3s; }
     .btn-main { background: var(--brand-green); color: white; }
     .btn-main:hover { background: var(--brand-purple); }
     .btn-outline { background: transparent; border: 1px solid var(--line); color: var(--text); }
     
-    /* TABLE */
-    .card { background: white; border-radius: 8px; border: 1px solid var(--line); overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+    .card { background: white; border-radius: 8px; border: 1px solid var(--line); overflow: hidden; box-shadow: 0 4px 25px rgba(0,0,0,0.03); }
     table { width: 100%; border-collapse: collapse; text-align: left; }
-    th { padding: 1.2rem; background: #fcfcfb; font-size: 0.7rem; text-transform: uppercase; color: var(--mid); letter-spacing: 0.1em; border-bottom: 1px solid var(--line); }
-    td { padding: 1.2rem; border-bottom: 1px solid var(--line); font-size: 0.9rem; vertical-align: top; }
-    tr:hover { background: #fafafa; }
+    th { padding: 1.2rem; background: #fcfcfb; font-size: 0.65rem; text-transform: uppercase; color: var(--mid); border-bottom: 1px solid var(--line); }
+    td { padding: 1.2rem; border-bottom: 1px solid var(--line); font-size: 0.85rem; vertical-align: middle; }
 
-    /* BADGES */
-    .status { font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; font-weight: 600; display: inline-block; margin-top: 5px; }
+    .status { font-size: 0.6rem; padding: 4px 8px; border-radius: 4px; font-weight: 700; display: inline-block; margin-right: 5px; text-transform: uppercase; }
     .valid { background: #eefdf5; color: #15803d; }
-    .warning { background: #fffbeb; color: #b45309; }
     .danger { background: #fef2f2; color: #b91c1c; }
 
-    /* OVERLAY/MODAL */
-    .overlay {
-      position: fixed; top: 0; right: 0; bottom: 0; left: 0; 
-      background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
-      display: none; justify-content: flex-end; z-index: 1000;
-    }
-    .drawer {
-      width: 100%; max-width: 500px; background: white; height: 100%;
-      padding: 3rem; overflow-y: auto; position: relative;
-      box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-      transform: translateX(100%); transition: transform 0.4s ease;
-    }
+    .overlay { position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(4px); display: none; justify-content: flex-end; z-index: 1000; }
+    .drawer { width: 100%; max-width: 500px; background: white; height: 100%; padding: 3rem; overflow-y: auto; transition: 0.4s ease; box-shadow: -10px 0 30px rgba(0,0,0,0.1); }
     .overlay.active { display: flex; }
-    .overlay.active .drawer { transform: translateX(0); }
 
-    .form-grp { margin-bottom: 1.5rem; }
-    .form-grp label { display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem; color: var(--brand-green); }
-    input { width: 100%; padding: 0.8rem; border: 1px solid var(--line); background: var(--off-white); font-family: inherit; }
+    .form-grp { margin-bottom: 1.2rem; }
+    .form-grp label { display: block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem; color: var(--brand-green); }
+    input { width: 100%; padding: 0.8rem; border: 1px solid var(--line); background: #f9f9f9; font-family: inherit; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
-    .file-pill { background: var(--off-white); padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; text-decoration: none; color: var(--brand-purple); font-weight: 600; display: inline-block; border: 1px solid var(--line); }
+    
+    .doc-btn { color: var(--brand-purple); background: none; border: none; font-weight: 600; font-size: 0.75rem; cursor: pointer; display: block; margin-bottom: 4px; padding: 0; text-align: left; }
+    .doc-btn:hover { text-decoration: underline; }
+    .upload-label { font-size: 0.65rem; color: var(--mid); cursor: pointer; text-decoration: underline; }
   </style>
 </head>
 <body>
 
 <nav>
   <img src="LogoGrok3C.png" class="logo" alt="Move Wise">
-  <div id="user-info" style="display:none">
-    <span id="user-email" style="font-size:0.8rem; margin-right:15px; font-weight:600"></span>
+  <div id="nav-user" style="display:none">
+    <span id="user-display" style="font-size:0.75rem; font-weight:600; margin-right:15px"></span>
     <button class="btn btn-outline" onclick="logout()">Logout</button>
   </div>
 </nav>
 
-<!-- AUTH -->
-<div id="auth-screen" class="container" style="max-width:400px; margin-top:100px;">
-    <div class="card" style="padding:2rem;">
-        <h2 style="font-family:'Playfair Display'; margin-bottom:2rem; text-align:center">Agent Portal</h2>
+<div id="auth-screen" class="container" style="max-width:400px; margin-top:80px">
+    <div class="card" style="padding:2.5rem;">
+        <h2 style="font-family:'Playfair Display'; margin-bottom:1.5rem; text-align:center">Agent Portal</h2>
         <div class="form-grp"><label>Email</label><input type="email" id="auth-email"></div>
         <div class="form-grp"><label>Password</label><input type="password" id="auth-password"></div>
         <button class="btn btn-main" style="width:100%" onclick="login()">Sign In</button>
     </div>
 </div>
 
-<!-- MAIN DASHBOARD -->
-<div id="main-dashboard" class="container" style="display:none">
+<div id="dashboard" class="container" style="display:none">
     <div class="header-actions">
-        <h1>Property Compliance</h1>
+        <h1>Compliance Portfolio</h1>
         <button class="btn btn-main" onclick="openDrawer()">+ Add Property</button>
     </div>
 
     <div class="card">
-        <table id="property-table">
+        <table>
             <thead>
                 <tr>
-                    <th>Address & Tenant</th>
-                    <th>Compliance (Gas/Elec/EPC)</th>
+                    <th>Property / Tenant</th>
+                    <th>Safety Expiries</th>
                     <th>Tenancy Period</th>
-                    <th>Documents</th>
+                    <th>Documents (Private)</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="table-body">
-                <!-- Data here -->
+                <tr><td colspan="5" style="text-align:center; padding:3rem; color:var(--mid)">Loading property data...</td></tr>
             </tbody>
         </table>
     </div>
 </div>
 
-<!-- DRAWER OVERLAY -->
-<div class="overlay" id="drawer-overlay" onclick="closeDrawer(event)">
+<div class="overlay" id="drawer-overlay" onclick="closeDrawer()">
     <div class="drawer" onclick="event.stopPropagation()">
-        <h2 id="drawer-title" style="font-family:'Playfair Display'; margin-bottom:2rem;">Add Property</h2>
-        <form id="prop-form">
-            <input type="hidden" id="prop-id">
-            
-            <div class="form-grp"><label>Property Address *</label><input type="text" id="address" required></div>
+        <h2 id="drawer-title" style="font-family:'Playfair Display'; margin-bottom:1.5rem;">Property Details</h2>
+        <form id="prop-form" onsubmit="saveProperty(event)">
+            <input type="hidden" id="edit-id">
+            <div class="form-grp"><label>Address *</label><input type="text" id="f-address" required></div>
             <div class="grid-2">
-                <div class="form-grp"><label>Postcode</label><input type="text" id="postcode"></div>
-                <div class="form-grp"><label>Tenant Name</label><input type="text" id="tenant_name"></div>
+                <div class="form-grp"><label>Postcode</label><input type="text" id="f-postcode"></div>
+                <div class="form-grp"><label>Tenant Name</label><input type="text" id="f-tenant"></div>
             </div>
-
-            <p style="font-size: 0.8rem; font-weight: 700; margin-bottom: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 5px;">COMPLIANCE DATES</p>
+            <p style="font-size:0.7rem; font-weight:800; border-bottom:1px solid var(--line); padding-bottom:5px; margin: 1rem 0">SAFETY COMPLIANCE</p>
             <div class="grid-2">
-                <div class="form-grp"><label>Gas Safety Expiry</label><input type="date" id="gas_cert_expiry"></div>
-                <div class="form-grp"><label>Elec EICR Expiry</label><input type="date" id="elec_cert_expiry"></div>
+                <div class="form-grp"><label>Gas Expiry</label><input type="date" id="f-gas"></div>
+                <div class="form-grp"><label>Elec Expiry</label><input type="date" id="f-elec"></div>
             </div>
-            <div class="form-grp"><label>EPC Expiry</label><input type="date" id="epc_expiry"></div>
-
-            <p style="font-size: 0.8rem; font-weight: 700; margin-bottom: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 5px;">TENANCY DETAILS</p>
+            <div class="form-grp"><label>EPC Expiry</label><input type="date" id="f-epc"></div>
+            <p style="font-size:0.7rem; font-weight:800; border-bottom:1px solid var(--line); padding-bottom:5px; margin: 1rem 0">TENANCY PERIOD</p>
             <div class="grid-2">
-                <div class="form-grp"><label>Start Date</label><input type="date" id="tenancy_start"></div>
-                <div class="form-grp"><label>End Date</label><input type="date" id="tenancy_end"></div>
+                <div class="form-grp"><label>Start Date</label><input type="date" id="f-start"></div>
+                <div class="form-grp"><label>End Date</label><input type="date" id="f-end"></div>
             </div>
-
-            <div style="margin-top: 2rem; display: flex; gap: 10px;">
-                <button type="submit" class="btn btn-main" style="flex:1">Save Record</button>
+            <div style="margin-top:2rem; display:flex; gap:10px">
+                <button type="submit" class="btn btn-main" style="flex:1">Save Property</button>
                 <button type="button" class="btn btn-outline" onclick="closeDrawer()">Cancel</button>
             </div>
         </form>
@@ -156,124 +128,129 @@
     const SUPABASE_ANON_KEY = "sb_publishable_IC5aFRMa1KXJsV74r4Lh7A_pQQAAo79";
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    let allProperties = [];
+    let propertiesCache = [];
 
     async function login() {
         const email = document.getElementById('auth-email').value;
         const password = document.getElementById('auth-password').value;
-        const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
-        if (error) alert(error.message); else checkUser();
+        const { error } = await _supabase.auth.signInWithPassword({ email, password });
+        if (error) alert(error.message); else checkSession();
     }
 
     async function logout() { await _supabase.auth.signOut(); location.reload(); }
 
-    async function checkUser() {
+    async function checkSession() {
         const { data: { session } } = await _supabase.auth.getSession();
         if (session) {
             document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('main-dashboard').style.display = 'block';
-            document.getElementById('user-info').style.display = 'flex';
-            document.getElementById('user-email').innerText = session.user.email;
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('nav-user').style.display = 'flex';
+            document.getElementById('user-display').innerText = session.user.email;
             fetchProperties();
         }
     }
 
-    function openDrawer(data = null) {
-        const drawer = document.getElementById('drawer-overlay');
-        const form = document.getElementById('prop-form');
-        form.reset();
-        document.getElementById('prop-id').value = '';
-        document.getElementById('drawer-title').innerText = data ? 'Edit Property' : 'Add Property';
-        
-        if (data) {
-            document.getElementById('prop-id').value = data.id;
-            document.getElementById('address').value = data.address;
-            document.getElementById('postcode').value = data.postcode;
-            document.getElementById('tenant_name').value = data.tenant_name;
-            document.getElementById('gas_cert_expiry').value = data.gas_cert_expiry;
-            document.getElementById('elec_cert_expiry').value = data.elec_cert_expiry;
-            document.getElementById('epc_expiry').value = data.epc_expiry;
-            document.getElementById('tenancy_start').value = data.tenancy_start;
-            document.getElementById('tenancy_end').value = data.tenancy_end;
-        }
-        drawer.classList.add('active');
-    }
-
-    function closeDrawer() { document.getElementById('drawer-overlay').classList.remove('active'); }
-
     async function fetchProperties() {
-        const { data, error } = await _supabase.from('Properties').select('*').order('created_at', { ascending: false });
-        if (data) {
-            allProperties = data;
-            renderTable(data);
+        const { data, error } = await _supabase.from('Properties').select('*').order('id', { ascending: false });
+        if (error) {
+            document.getElementById('table-body').innerHTML = `<tr><td colspan="5">Error loading data. Check RLS Policies.</td></tr>`;
+            return;
         }
+        propertiesCache = data;
+        renderTable(data);
     }
 
-    function renderTable(props) {
+    function renderTable(data) {
         const body = document.getElementById('table-body');
-        body.innerHTML = props.map(p => `
+        if (data.length === 0) {
+            body.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:3rem;">No properties found.</td></tr>`;
+            return;
+        }
+        body.innerHTML = data.map(p => `
             <tr>
-                <td><strong>${p.address}</strong><br><small>${p.tenant_name || 'No Tenant'}</small></td>
+                <td><strong>${p.address}</strong><br><small style="color:var(--mid)">${p.tenant_name || 'No Tenant'}</small></td>
                 <td>
-                    ${statusBadge('Gas', p.gas_cert_expiry)} 
-                    ${statusBadge('Elec', p.elec_cert_expiry)} 
-                    ${statusBadge('EPC', p.epc_expiry)}
+                    ${badge('Gas', p.gas_cert_expiry)}
+                    ${badge('Elec', p.elec_cert_expiry)}
+                    ${badge('EPC', p.epc_expiry)}
+                </td>
+                <td><small>S: ${p.tenancy_start || '-'}<br>E: ${p.tenancy_end || '-'}</small></td>
+                <td>
+                    ${fileUI(p.gas_pdf_path, 'Gas Cert')}
+                    ${fileUI(p.tenancy_pdf_path, 'AST Agreement')}
+                    <label class="upload-label">+ Upload Doc <input type="file" hidden onchange="handleUpload(this, ${p.id})"></label>
                 </td>
                 <td>
-                    <small>Start: ${p.tenancy_start || '-'}</small><br>
-                    <small>End: ${p.tenancy_end || '-'}</small>
-                </td>
-                <td>
-                    <div style="display:flex; flex-direction:column; gap:4px">
-                        ${docLink(p.id, 'gas_pdf_path', 'Gas Cert', p.gas_pdf_path)}
-                        ${docLink(p.id, 'tenancy_pdf_path', 'Tenancy Agmt', p.tenancy_pdf_path)}
-                    </div>
-                </td>
-                <td>
-                    <button class="btn btn-outline" style="padding:5px 10px; font-size:0.6rem" onclick='openDrawer(${JSON.stringify(p)})'>Edit</button>
-                    <button class="btn btn-outline" style="padding:5px 10px; font-size:0.6rem; color:red" onclick="deleteProp(${p.id})">Del</button>
+                    <button class="btn btn-outline" style="padding:4px 8px; font-size:0.6rem" onclick="prepEdit(${p.id})">Edit</button>
+                    <button class="btn btn-outline" style="padding:4px 8px; font-size:0.6rem; color:var(--danger)" onclick="deleteProp(${p.id})">Del</button>
                 </td>
             </tr>
         `).join('');
     }
 
-    function statusBadge(label, date) {
-        if (!date) return `<span class="status danger">${label}: Missing</span>`;
+    function badge(lbl, date) {
+        if (!date) return `<span class="status danger">${lbl}: MISSING</span>`;
         const isExp = new Date(date) < new Date();
-        return `<span class="status ${isExp ? 'danger' : 'valid'}">${label}: ${date}</span>`;
+        return `<span class="status ${isExp ? 'danger' : 'valid'}">${lbl}: ${date}</span>`;
     }
 
-    function docLink(id, field, label, path) {
-        if (path) {
-            const { data } = _supabase.storage.from('certificates').getPublicUrl(path);
-            return `<a href="${data.publicUrl}" target="_blank" class="file-pill">View ${label}</a>`;
+    // Secure File UI
+    function fileUI(path, label) {
+        if (!path) return '';
+        // We call viewFile() which will generate a secure temporary link
+        return `<button class="doc-btn" onclick="viewFile('${path}')">View ${label}</button>`;
+    }
+
+    async function viewFile(path) {
+        // Create a signed URL that expires in 60 seconds
+        const { data, error } = await _supabase.storage
+            .from('certificates')
+            .createSignedUrl(path, 60);
+        
+        if (error) {
+            alert("Security Error: Could not generate private link.");
+            console.error(error);
+        } else {
+            window.open(data.signedUrl, '_blank');
         }
-        return `<label style="cursor:pointer; font-size:0.65rem; color:var(--mid)">+ Upload ${label} 
-                <input type="file" hidden onchange="uploadFile(this, ${id}, '${field}')"></label>`;
     }
 
-    async function uploadFile(input, id, field) {
-        const file = input.files[0];
-        const path = `docs/${id}/${field}_${Date.now()}.pdf`;
-        const { error: upErr } = await _supabase.storage.from('certificates').upload(path, file);
-        if (!upErr) {
-            await _supabase.from('Properties').update({ [field]: path }).eq('id', id);
-            fetchProperties();
-        }
+    function openDrawer() {
+        document.getElementById('prop-form').reset();
+        document.getElementById('edit-id').value = '';
+        document.getElementById('drawer-title').innerText = "Add New Property";
+        document.getElementById('drawer-overlay').classList.add('active');
     }
 
-    document.getElementById('prop-form').onsubmit = async (e) => {
+    function closeDrawer() { document.getElementById('drawer-overlay').classList.remove('active'); }
+
+    function prepEdit(id) {
+        const p = propertiesCache.find(x => x.id === id);
+        document.getElementById('edit-id').value = p.id;
+        document.getElementById('f-address').value = p.address;
+        document.getElementById('f-postcode').value = p.postcode;
+        document.getElementById('f-tenant').value = p.tenant_name;
+        document.getElementById('f-gas').value = p.gas_cert_expiry;
+        document.getElementById('f-elec').value = p.elec_cert_expiry;
+        document.getElementById('f-epc').value = p.epc_expiry;
+        document.getElementById('f-start').value = p.tenancy_start;
+        document.getElementById('f-end').value = p.tenancy_end;
+        document.getElementById('drawer-title').innerText = "Edit Property";
+        document.getElementById('drawer-overlay').classList.add('active');
+    }
+
+    async function saveProperty(e) {
         e.preventDefault();
-        const id = document.getElementById('prop-id').value;
+        const id = document.getElementById('edit-id').value;
         const payload = {
-            address: document.getElementById('address').value,
-            postcode: document.getElementById('postcode').value,
-            tenant_name: document.getElementById('tenant_name').value,
-            gas_cert_expiry: document.getElementById('gas_cert_expiry').value || null,
-            elec_cert_expiry: document.getElementById('elec_cert_expiry').value || null,
-            epc_expiry: document.getElementById('epc_expiry').value || null,
-            tenancy_start: document.getElementById('tenancy_start').value || null,
-            tenancy_end: document.getElementById('tenancy_end').value || null,
+            address: document.getElementById('f-address').value,
+            postcode: document.getElementById('f-postcode').value,
+            tenant_name: document.getElementById('f-tenant').value,
+            gas_cert_expiry: document.getElementById('f-gas').value || null,
+            elec_cert_expiry: document.getElementById('f-elec').value || null,
+            epc_expiry: document.getElementById('f-epc').value || null,
+            tenancy_start: document.getElementById('f-start').value || null,
+            tenancy_end: document.getElementById('f-end').value || null
         };
 
         if (id) {
@@ -287,15 +264,35 @@
         fetchProperties();
     }
 
+    async function handleUpload(input, id) {
+        const file = input.files[0];
+        if (!file) return;
+
+        // Ask user which document they are uploading
+        const type = prompt("Type 'gas' for Gas Certificate or 'tenancy' for AST Agreement:").toLowerCase();
+        const field = type === 'gas' ? 'gas_pdf_path' : (type === 'tenancy' ? 'tenancy_pdf_path' : null);
+        
+        if (!field) { alert("Invalid type"); return; }
+
+        const fileName = `${id}/${field}_${Date.now()}.pdf`;
+        const { error: upErr } = await _supabase.storage.from('certificates').upload(fileName, file);
+
+        if (upErr) {
+            alert("Upload failed. Make sure bucket 'certificates' exists.");
+        } else {
+            await _supabase.from('Properties').update({ [field]: fileName }).eq('id', id);
+            fetchProperties();
+        }
+    }
+
     async function deleteProp(id) {
-        if (confirm("Delete this property?")) {
+        if (confirm("Delete forever?")) {
             await _supabase.from('Properties').delete().eq('id', id);
             fetchProperties();
         }
     }
 
-    window.onload = checkUser;
+    window.onload = checkSession;
 </script>
-
 </body>
 </html>
