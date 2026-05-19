@@ -68,7 +68,13 @@
         font-size: 0.8rem;
     }
     .btn:hover { background: var(--brand-purple); transform: translateY(-2px); }
-
+    .disabled-link {
+    color: #999999;
+    text-decoration: none;
+    cursor: not-allowed;
+    pointer-events: none; /* Prevents clicks and hover triggers */
+     text-decoration: line-through;
+    }
     /* CTA AREA */
     .cta-banner { background: var(--brand-purple); color: white; padding: 7rem 5%; text-align: center; }
     .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 1.5rem; }
@@ -96,7 +102,7 @@
   <div class="nav-links">
     <a href="#">Home</a>
     <a href="#services">Landlord Services</a>
-    <a href="https://www.rightmove.co.uk/property-to-rent/find/Move-Wise/Manchester.html?locationIdentifier=BRANCH%5E301898" target="_blank" style="color:var(--brand-purple); font-weight:800">Available Properties</a>
+    <a href="https://www.rightmove.co.uk/property-to-rent/find/Move-Wise/Manchester.html?locationIdentifier=BRANCH%5E301898" target="_blank" class="disabled-link" style="color:var(--brand-purple); font-weight:800; text-decoration: line-through;">Available Properties</a>
     <a href="report.html" class="btn" style="color:white; margin-left: 30px;">Report Maintenance</a>
   </div>
 </nav>
@@ -105,7 +111,7 @@
   <div class="hero-content">
     <h1>Boutique Management.<br>Expert Returns.</h1>
     <p>Move Wise provides a sophisticated property management experience for landlords who value integrity, digital compliance, and local excellence.</p>
-    <a href="https://www.rightmove.co.uk/property-to-rent/find/Move-Wise/Manchester.html?locationIdentifier=BRANCH%5E301898" target="_blank" class="btn">View Properties on Rightmove</a>
+    <a href="https://www.rightmove.co.uk/property-to-rent/find/Move-Wise/Manchester.html?locationIdentifier=BRANCH%5E301898" target="_blank" class="btn disabled-link">View Properties on Rightmove</a>
   </div>
 </header>
 
@@ -145,7 +151,7 @@
 <footer>
   <img src="LogoGrok3C.png" class="footer-logo" alt="Move Wise">
   <p style="color:white; font-weight:700; margin-bottom:1rem;">MOVE WISE ESTATE AGENTS</p>
-  <p>&copy; 2025 Move Wise Estate Agents. Regulated by ARLA Propertymark.</p>
+  <p>&copy; 2025 Move Wise Estate Agents.</p>
   <p style="font-size:0.75rem; margin-top:1.5rem; color: #555;">Manchester HQ: 3 Hardman Street, Spinningfields, M3 3HF</p>
   <p style="font-size:0.75rem; color: #555;">London | Manchester | Birmingham</p>
 </footer>
