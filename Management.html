@@ -17,79 +17,151 @@
       --line: rgba(28,27,24,0.08); 
       --ink: #1c1b18; 
       --mid: #8a8880;
+      --nav-height: 95px; /* Balanced height */
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Jost', sans-serif; background: var(--white); color: var(--ink); line-height: 1.6; }
+    body { font-family: 'Jost', sans-serif; background: var(--white); color: var(--ink); line-height: 1.6; overflow-x: hidden; }
 
-    /* NAV - Adjusted for larger logo */
+    /* NAV - Medium Height */
     nav {
-      min-height: 110px; padding: 10px 5%; display: flex; align-items: center; justify-content: space-between;
-      background: white; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 100;
+      height: var(--nav-height);
+      padding: 0 5%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between;
+      background: white; 
+      border-bottom: 1px solid var(--line); 
+      position: sticky; 
+      top: 0; 
+      z-index: 1000;
     }
-    .nav-logo img { height: 130px; width: auto; display: block; } /* BIG LOGO */
+    .nav-logo img { 
+      height: 90px; /* "In-between" size for better visibility */
+      width: auto; 
+      display: block;
+      transition: 0.3s;
+    }
 
     .nav-links { display: flex; align-items: center; }
     .nav-links a { 
-        text-decoration: none; color: var(--ink); margin-left: 35px; 
+        text-decoration: none; color: var(--ink); margin-left: 30px; 
         font-weight: 600; font-size: 0.85rem; text-transform: uppercase; 
         letter-spacing: 0.1em; transition: 0.3s; 
     }
     .nav-links a:hover { color: var(--brand-purple); }
 
+    /* Hamburger Menu Button */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 6px;
+      padding: 10px;
+    }
+    .menu-toggle span {
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: var(--brand-green);
+      transition: 0.3s;
+    }
+
     /* HERO */
     .hero {
-      height: 85vh; background: linear-gradient(rgba(32, 77, 53, 0.15), rgba(32, 77, 53, 0.15)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=80');
+      height: 80vh; 
+      background: linear-gradient(rgba(32, 77, 53, 0.15), rgba(32, 77, 53, 0.15)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=80');
       background-size: cover; background-position: center;
       display: flex; align-items: center; justify-content: center; text-align: center; color: var(--brand-green);
     }
     .hero-content { 
         max-width: 850px; padding: 4rem; 
-        background: rgba(255,255,255,0.92); 
+        background: rgba(255,255,255,0.95); 
         backdrop-filter: blur(15px);
         border-radius: 4px;
+        margin: 0 20px;
     }
-    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1.5rem; line-height: 1.1; }
-    .hero p { font-size: 1.25rem; color: var(--mid); margin-bottom: 2.5rem; font-weight: 300; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 4rem); margin-bottom: 1.5rem; line-height: 1.1; }
+    .hero p { font-size: 1.15rem; color: var(--mid); margin-bottom: 2.5rem; font-weight: 300; }
 
     /* SECTION */
-    .section { padding: 8rem 5%; max-width: 1300px; margin: 0 auto; text-align: center; }
-    .section h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 3.5rem; color: var(--brand-purple); }
+    .section { padding: 7rem 5%; max-width: 1300px; margin: 0 auto; text-align: center; }
+    .section h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 3.5rem; color: var(--brand-purple); }
     
-    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; margin-top: 3rem; }
-    .service-card { padding: 4rem 3rem; border: 1px solid var(--line); background: var(--off-white); transition: 0.4s; }
-    .service-card:hover { border-color: var(--brand-green); transform: translateY(-10px); background: white; box-shadow: 0 20px 40px rgba(0,0,0,0.03); }
-    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1.2rem; color: var(--brand-green); }
-    .service-card p { color: var(--mid); font-size: 1rem; }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 35px; margin-top: 3rem; }
+    .service-card { padding: 3.5rem 2.5rem; border: 1px solid var(--line); background: var(--off-white); transition: 0.4s; }
+    .service-card:hover { border-color: var(--brand-green); transform: translateY(-5px); background: white; box-shadow: 0 15px 30px rgba(0,0,0,0.03); }
+    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.7rem; margin-bottom: 1.2rem; color: var(--brand-green); }
     
     .btn { 
-        display: inline-block; padding: 1.2rem 2.8rem; background: var(--brand-green); 
+        display: inline-block; padding: 1.1rem 2.6rem; background: var(--brand-green); 
         color: white; text-decoration: none; font-weight: 700; text-transform: uppercase; 
         letter-spacing: 0.15em; transition: 0.3s; border-radius: 2px; border: none; cursor: pointer;
         font-size: 0.8rem;
     }
     .btn:hover { background: var(--brand-purple); transform: translateY(-2px); }
+    
     .disabled-link {
-    color: #999999;
-    text-decoration: none;
-    cursor: not-allowed;
-    pointer-events: none; /* Prevents clicks and hover triggers */
-     text-decoration: line-through;
+        color: #999999 !important;
+        text-decoration: line-through !important;
+        cursor: not-allowed;
+        pointer-events: none;
     }
+
     /* CTA AREA */
-    .cta-banner { background: var(--brand-purple); color: white; padding: 7rem 5%; text-align: center; }
-    .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 1.5rem; }
-    .cta-banner p { font-size: 1.2rem; margin-bottom: 3rem; opacity: 0.9; max-width: 700px; margin-left: auto; margin-right: auto; }
+    .cta-banner { background: var(--brand-purple); color: white; padding: 6rem 5%; text-align: center; }
+    .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 1.5rem; }
+    .cta-banner p { font-size: 1.2rem; margin-bottom: 2.5rem; opacity: 0.9; max-width: 700px; margin-left: auto; margin-right: auto; }
 
     /* FOOTER */
-    footer { background: #111; color: #888; padding: 6rem 5%; text-align: center; border-top: 5px solid var(--brand-green); }
-    .footer-logo { height: 120px; width: auto; margin-bottom: 2rem; filter: brightness(0) invert(1); } /* BIG LOGO */
-    footer p { font-size: 0.9rem; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+    footer { background: #111; color: #888; padding: 5rem 5%; text-align: center; border-top: 5px solid var(--brand-green); }
+    .footer-logo { height: 90px; width: auto; margin-bottom: 2rem; filter: brightness(0) invert(1); }
+    footer p { font-size: 0.85rem; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
 
-    @media (max-width: 900px) {
-        .nav-logo img { height: 90px; }
-        .nav-links { display: none; }
-        .hero-content { padding: 2rem; width: 90%; }
+    /* MOBILE STYLES */
+    @media (max-width: 1000px) {
+        :root { --nav-height: 100px; }
+        .nav-logo img { height: 100px; } /* Slightly smaller for mobile but still visible */
+
+        .menu-toggle { display: flex; z-index: 1001; }
+        
+        .nav-links {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            width: 100%;
+            height: 0; 
+            background: white;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow: hidden;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 0px solid var(--line);
+        }
+
+        .nav-links.active {
+            height: calc(100vh - var(--nav-height));
+            padding: 50px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav-links a {
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+
+        .nav-links .btn {
+            margin-left: 0;
+            margin-top: 15px;
+        }
+
         .section { padding: 4rem 5%; }
+        .hero-content { padding: 2.5rem 1.5rem; }
+        
+        /* Animation for hamburger icons */
+        .active-toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .active-toggle span:nth-child(2) { opacity: 0; }
+        .active-toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
     }
   </style>
 </head>
@@ -97,13 +169,20 @@
 
 <nav>
   <div class="nav-logo">
-      <a href="#"><img src="LogoGrok3C.png" alt="Move Wise"></a>
+      <a href="#"><img src="LogoGrok3C.png" style="height: 110px;" alt="Move Wise"></a>
   </div>
-  <div class="nav-links">
+
+  <div class="menu-toggle" id="mobile-menu-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="nav-links" id="nav-links-container">
     <a href="#">Home</a>
     <a href="#services">Landlord Services</a>
-    <a href="https://www.rightmove.co.uk/property-to-rent/find/Move-Wise/Manchester.html?locationIdentifier=BRANCH%5E301898" target="_blank" class="disabled-link" style="color:var(--brand-purple); font-weight:800; text-decoration: line-through;">Available Properties</a>
-    <a href="report.html" class="btn" style="color:white; margin-left: 30px;">Report Maintenance</a>
+    <a href="#" class="disabled-link" style="color:var(--brand-purple); font-weight:800;">Available Properties</a>
+    <a href="report.html" class="btn" style="color:white;">Report Maintenance</a>
   </div>
 </nav>
 
@@ -111,7 +190,7 @@
   <div class="hero-content">
     <h1>Boutique Management.<br>Expert Returns.</h1>
     <p>Move Wise provides a sophisticated property management experience for landlords who value integrity, digital compliance, and local excellence.</p>
-    <a href="https://www.rightmove.co.uk/property-to-rent/find/Move-Wise/Manchester.html?locationIdentifier=BRANCH%5E301898" target="_blank" class="btn disabled-link">View Properties on Rightmove</a>
+    <a href="#" class="btn disabled-link">View Properties on Rightmove</a>
   </div>
 </header>
 
@@ -142,7 +221,7 @@
 
 <section class="section">
   <h2>Why Landlords Trust Us</h2>
-  <div style="max-width:850px; margin: 0 auto; color: var(--mid); text-align: left; background: var(--off-white); padding: 4rem; border-radius: 4px;">
+  <div style="max-width:850px; margin: 0 auto; color: var(--mid); text-align: left; background: var(--off-white); padding: 3rem; border-radius: 4px;">
     <p style="margin-bottom:1.5rem; font-size: 1.1rem; line-height: 1.8;">At Move Wise, we understand that your property is more than just an asset—it’s an investment in your future. That’s why we apply a rigorous 5-point screening process to all prospective tenants, ensuring only the most reliable individuals occupy your homes.</p>
     <p style="font-size: 1.1rem; line-height: 1.8;">Our proactive approach to maintenance prevents minor issues from becoming major costs, and our deep understanding of the UK rental market ensures your portfolio achieves its maximum potential ROI while remaining 100% compliant with changing legislation.</p>
   </div>
@@ -154,7 +233,35 @@
   <p>&copy; 2025 Move Wise Estate Agents.</p>
   <p style="font-size:0.75rem; margin-top:1.5rem; color: #555;">Manchester HQ: 3 Hardman Street, Spinningfields, M3 3HF</p>
   <p style="font-size:0.75rem; color: #555;">London | Manchester | Birmingham</p>
+  <a href="tel:+441615540432" style="font-size:0.75rem; color: #555;">0161 554 0432</a>
 </footer>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const navLinks = document.getElementById('nav-links-container');
+
+  menuBtn.addEventListener('click', () => {
+    // Toggle active state for menu container and toggle button
+    menuBtn.classList.toggle('active-toggle');
+    navLinks.classList.toggle('active');
+    
+    // Prevent scrolling when menu is open
+    if (navLinks.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
+  });
+
+  // Close menu when a link is clicked
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      menuBtn.classList.remove('active-toggle');
+      navLinks.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    });
+  });
+</script>
 
 </body>
 </html>
